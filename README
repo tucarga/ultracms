@@ -1,0 +1,27 @@
+=====================
+ Wagtail cms project
+=====================
+
+Install
+=======
+
+mkvirtualenv <env name>
+
+# install wagtail, it's not included in requirements.txt because we use our own fork
+
+git clone https://github.com/tucarga/ultracms
+
+cd ultracms
+
+pip install -r requirements_dev.txt
+
+# make a .env file. You can use .env_template
+
+honcho run ./manage.py syncdb
+
+honcho run ./manage.py migrate
+
+Run
+===
+
+honcho run ./manage.py runserver
