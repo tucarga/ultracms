@@ -1,0 +1,5 @@
+# Postgres with user specified database/username/password
+
+docker build --rm --tag tc_dev_postgresql .
+# docker run --rm --env USERNAME=django --env PASSWORD=django --env DATABASE=django --publish-all --name tc_dev_postgresql tc_dev_postgresql bash /tmp/create_database.sh
+docker run --rm --publish 5432:5432 --name tc_dev_postgresql tc_dev_postgresql
