@@ -1,9 +1,9 @@
 {% extends "ultracore/base.html" %}
-{% load ultracore_tags wagtailblog_tags %}
+{% load wagtailblog_tags %}
 
 {% block content %}
     {% include "ultracore/includes/body.html" with body=self.body only %}
 
-    {% blog_listing_homepage %}
+    {% blog_index 'Servicios' %}
 
 {% endblock %}
