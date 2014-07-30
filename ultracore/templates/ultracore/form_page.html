@@ -1,0 +1,19 @@
+{% extends "ultracore/base.html" %}
+{% load pageurl rich_text %}
+
+{% block content %}
+
+<h1>{{ self.title }}</h1>
+
+{{ self.intro|richtext }}
+
+<form action="{% pageurl self %}" method="POST">
+
+  {% csrf_token %}
+
+  {{ form.as_p }}
+
+  <input type="submit">
+</form>
+
+{% endblock %}
