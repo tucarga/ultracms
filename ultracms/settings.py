@@ -121,10 +121,15 @@ STATICFILES_FINDERS = (
 )
 # end wagtail
 
-# debug toolbar
-# INSTALLED_APPS += ('debug_toolbar', )
+# django extensions
+INSTALLED_APPS += ('django_extensions', )
+# end django extensions
 
 # django-compressor settings
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
+
+# if DEBUG:
+#    debug toolbar
+#    INSTALLED_APPS += ('debug_toolbar', )
