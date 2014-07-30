@@ -1,8 +1,0 @@
-{% load image_tags %}
-
-{# Individual blog_index item in a list - used on blog_index index and home page #}
-    <h4 class="list-group-item-heading">{{ blog_index.title }}</h4>
-    {% for blog in blog_index.get_children %}
-      {% include "wagtailblog/includes/blog_list_item.html" %}
-    {% endfor %}
-</a>

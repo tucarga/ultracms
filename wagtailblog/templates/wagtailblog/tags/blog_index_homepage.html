@@ -1,8 +1,0 @@
-{% if blog_index %}
-    <div class="page-header"><h3>{{ blog_index.title }}</h3></div>
-    <div class="list-group">
-        {% for blog_index in blog_index.get_children %}
-            {% include "wagtailblog/includes/blog_index_list_item.html" %}
-        {% endfor %}
-    </div>
-{% endif %}

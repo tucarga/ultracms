@@ -1,5 +1,7 @@
 from django import template
 
+from ultracore.models import Advert
+
 register = template.Library()
 
 
@@ -73,6 +75,6 @@ def secondary_menu(context, calling_page=None):
 @register.inclusion_tag('ultracore/tags/adverts.html', takes_context=True)
 def adverts(context):
     return {
-        'adverts': [],  # Advert.objects.all(),
+        'adverts': Advert.objects.all(),
         'request': context['request'],
     }

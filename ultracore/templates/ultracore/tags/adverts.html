@@ -1,6 +1,7 @@
-{% load pageurl %}
+{% load rich_text image_tags %}
 {% for advert in adverts %}
-    {% if advert.url %}<a href="{{ advert.url }}">{% elif advert.page %}<a href="{% pageurl advert.page %}">{% endif %}
-        <p>{{ advert.text }}</p>
-    {% if advert.url or advert.page %}</a>{% endif %}
+  {% image advert.feed_image width-200 class="algo" %}
+  <h1>{{ advert.title }}</h1>
+  {% if advert.sub_title %}<h2>{{ advert.sub_title }}</h2>{% endif %}
+  <p>{{ advert.body|richtext }}</p>
 {% endfor %}

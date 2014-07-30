@@ -1,8 +1,12 @@
+from django.db import models
+
 from modelcluster.fields import ParentalKey
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
     InlinePanel
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailforms.models import AbstractEmailForm, AbstractFormField
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsnippets.models import register_snippet
 
 
 class FormField(AbstractFormField):
@@ -25,3 +29,28 @@ FormPage.content_panels = [
         FieldPanel('subject', classname="full"),
     ], "Email")
 ]
+
+
+class Advert(models.Model):
+    title = models.CharField(max_length=255)
+    sub_title = models.CharField(max_length=255, blank=True)
+    body = RichTextField()
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('sub_title'),
+        FieldPanel('body'),
+        ImageChooserPanel('feed_image'),
+    ]
+
+    def __unicode__(self):
+        return self.title
+
+register_snippet(Advert)
