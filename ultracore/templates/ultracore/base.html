@@ -1,4 +1,4 @@
-{% load ultracore_tags cache compress static wagtailuserbar %}
+{% load ultracore_tags cache compress static %}{# wagtailuserbar #}
 {% load i18n %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -52,7 +52,7 @@
 
     <body class="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
 
-        {% wagtailuserbar %}
+        {# % wagtailuserbar % #}
 
         {% block menu %}
             {% get_site_root as site_root %}
