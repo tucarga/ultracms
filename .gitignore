@@ -2,5 +2,6 @@
 # __pycache__/
 *.py[cod]
 .env*
+!.env_template
 README.html
 static/CACHE
