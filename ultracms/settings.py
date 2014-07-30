@@ -130,6 +130,6 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
-# if DEBUG:
-#    debug toolbar
-#    INSTALLED_APPS += ('debug_toolbar', )
+if DEBUG:
+    # debug toolbar
+    INSTALLED_APPS += ('debug_toolbar', )
