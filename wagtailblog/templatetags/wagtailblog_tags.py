@@ -22,9 +22,9 @@ def blog_listing_homepage(context, count=2):
     'wagtailblog/tags/blog_index_homepage.html',
     takes_context=True
 )
-def blog_index(context, title):
-    blog_index = BlogIndexPage.objects.get(title=title, live=True)
+def blog_index(context, slug):
     # import pdb; pdb.set_trace()
+    blog_index = BlogIndexPage.objects.get(slug=slug, live=True)
     return {
         'blog_index': blog_index,
         # required by the pageurl tag that we want to use within this template
