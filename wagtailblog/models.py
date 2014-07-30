@@ -74,8 +74,12 @@ class BlogPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    sort_order = models.IntegerField("Sort order", default=0)
 
     indexed_fields = ('body', )
+
+    class Meta:
+        ordering = ['sort_order']
 
     @property
     def blog_index(self):
@@ -92,4 +96,5 @@ BlogPage.promote_panels = [
     MultiFieldPanel(Page.promote_panels, "Common page configuration"),
     ImageChooserPanel('feed_image'),
     FieldPanel('tags'),
+    FieldPanel('sort_order'),
 ]
