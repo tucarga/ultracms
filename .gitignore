@@ -5,3 +5,5 @@
 !.env_template
 README.html
 static/CACHE
+images/
+original_images/
