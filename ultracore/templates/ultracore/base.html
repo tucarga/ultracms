@@ -13,8 +13,8 @@
         <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
 
         {# External stylesheets #}
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+        {#<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">#}
+        {#<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">#}
 
         {# Local static assets such as css, images and javascrpt should be stored at [yourapp]/static/[yourapp]/... #}
         {% compress css %}
@@ -23,13 +23,16 @@
 
             {# Custom stylesheets #}
             {# SCSS compilation relies on django compressor #}
-            <link rel="stylesheet" type="text/x-scss" href="{% static "css/main.scss" %}" />
+            {#<link rel="stylesheet" type="text/x-scss" href="{% static "css/main.scss" %}" />#}
 
         {% endcompress %}
 
-        {% block extra_css %}{% endblock %} {# Override this block in individual templates in order to add stylesheets on a template by template basis #}
+        {% block extra_css %}
+            <link rel="stylesheet" type="text/x-scss" href="{% static "css/main.css" %}" />
+        {% endblock %} {# Override this block in individual templates in order to add stylesheets on a template by template basis #}
 
         {# Javascript that needs to be called from head e.g. google analytics snippet and bootstrap shivs #}
+        <script src="{% static "js/modernizr.js" %}"></script>
         <script type="text/javascript">
               var _gaq = _gaq || [];
               _gaq.push(['_setAccount', 'UA-xxxxxxx-x']);
@@ -54,24 +57,56 @@
 
         {# % wagtailuserbar % #}
 
-        {% block menu %}
-            {% get_site_root as site_root %}
-            {% top_menu parent=site_root calling_page=self %}
-        {% endblock %}
+        <div id="header" class="row">
+            <div class="large-12 columns">
+
+                <div class="button-tool clearfix">
+                    <div class="form-right">
+                        <form action="{% url "set_language" %}" method="post">
+                          {% csrf_token %}
+                          <input name="next" type="hidden" value="{{ redirect_to }}" />
+                          <select name="language">
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>{{ language.name_local }} ({{ language.code }})</option>
+                            {% endfor %}
+                          </select>
+                          <input type="submit" value="Go"  class="button small radius" />
+                        </form>
+                    </div>
+                    <a href="" title="" class="pay button radius">Pago en linea</a>
+                </div>
+
+                {% block menu %}
+                    {% get_site_root as site_root %}
+                    {% top_menu parent=site_root calling_page=self %}
+                {% endblock %}
+
+            </div>
+        </div>
+
+    <div id="content">
+      <div id="slider" class="row">
+        <div class="large-12 columns">
+            <img src="{% static "images/slider.jpg" %}" alt="none" title="" >
+        </div>
+      </div> <!-- end slider -->
+
+        <div class="row">
+            <div class="large-12 columns">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+        </div>
+
+    </div> <!-- end content -->
+
 
       <div class="container theme-showcase">
-
-        <form action="{% url "set_language" %}" method="post">
-          {% csrf_token %}
-          <input name="next" type="hidden" value="{{ redirect_to }}" />
-          <select name="language">
-            {% get_language_info_list for LANGUAGES as languages %}
-            {% for language in languages %}
-            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>{{ language.name_local }} ({{ language.code }})</option>
-            {% endfor %}
-          </select>
-          <input type="submit" value="Go" />
-        </form>
 
             {% block heading %}
                 <div class="page-header">
@@ -94,9 +129,9 @@
 
         </div>
 
-        {# External javascript #}
-        <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        {# Base javascript #}
+            <script src="{% static "js/jquery.min.js" %}"></script>
+            <script src="{% static "js/foundation.min.js" %}"></script>
 
         {% compress js %}
             <script src="{% static "js/vendor/jquery.bxslider.min.js" %}"></script>
@@ -107,6 +142,6 @@
         {% endcompress %}
 
         {% block extra_js %}{% endblock %} {# Override this block in individual templates in order to add javascript on a template by template basis #}
-        
+
     </body>
 </html>
