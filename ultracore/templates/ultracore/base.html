@@ -86,48 +86,74 @@
         </div>
 
     <div id="content">
-      <div id="slider" class="row">
-        <div class="large-12 columns">
-            <img src="{% static "images/slider.jpg" %}" alt="none" title="" >
-        </div>
-      </div> <!-- end slider -->
 
-        <div class="row">
-            <div class="large-12 columns">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-        </div>
+            {% block content %}
+            {% endblock %}
+
+            {% comment %}
+                {% block secondary_menu %}
+                    {% secondary_menu calling_page=self %}
+                {% endblock %}
+            {% endcomment %}
 
     </div> <!-- end content -->
 
 
-      <div class="container theme-showcase">
-
-            {% block heading %}
-                <div class="page-header">
-                    <h2>{{ self.title }}</h2>
-                </div>
-            {% endblock %}
-
-            {% block content %}
-
-            {% endblock %}
-
-            {% block secondary_menu %}
-                {% secondary_menu calling_page=self %}
-            {% endblock %}
-
-            {% block adverts %}
-                {# Uses a snippet - allows adverts to appear on every page #}
-                {% adverts %}
-            {% endblock %}
-
+    <footer>
+      <div class="row">
+        <div class="large-12 columns">
+        <hr>
+          <div class="loop-footer">
+            <ul>
+              <li class="header">Nombre menu</li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+            </ul>
+          </div> <!-- end loop footer -->
+          <div class="loop-footer">
+            <ul>
+              <li class="header">Nombre menu</li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+            </ul>
+          </div> <!-- end loop footer -->
+          <div class="loop-footer">
+            <ul>
+              <li class="header">Nombre menu</li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+            </ul>
+          </div> <!-- end loop footer -->
+          <div class="loop-footer">
+            <ul>
+              <li class="header">Nombre menu</li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+            </ul>
+          </div> <!-- end loop footer -->
+          <div class="loop-footer">
+            <ul>
+              <li class="header">Nombre menu</li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+              <li><a href="" title="">Menu 1</a></li>
+            </ul>
+          </div> <!-- end loop footer -->
+          <br class="clear">
+          <p class="disclaimer">Ultramar Ltda. © Todos los derechos reservados</p>
         </div>
+      </div>
+    </footer>
+
 
         {# Base javascript #}
             <script src="{% static "js/jquery.min.js" %}"></script>

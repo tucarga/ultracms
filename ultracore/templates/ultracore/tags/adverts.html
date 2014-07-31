@@ -1,7 +1,16 @@
 {% load rich_text image_tags %}
+
 {% for advert in adverts %}
-  {% image advert.feed_image width-200 class="algo" %}
-  <h1>{{ advert.title }}</h1>
-  {% if advert.sub_title %}<h2>{{ advert.sub_title }}</h2>{% endif %}
-  <p>{{ advert.body|richtext }}</p>
+    <div class="large-3 medium-6 small-6 columns">
+        <div class="loop-servicios">
+            <div class="title">
+              <h5>{{ advert.title }}</h5>
+              {% if advert.sub_title %}<h3>{{ advert.sub_title }}</h3>{% endif %}
+            </div>
+            <div class="overlay">
+                {{ advert.body|richtext }}
+            </div>
+            {% image advert.feed_image width-600 class="algo" %}
+        </div>
+    </div>
 {% endfor %}

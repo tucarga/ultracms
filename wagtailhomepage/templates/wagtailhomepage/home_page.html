@@ -1,8 +1,22 @@
 {% extends "ultracore/base.html" %}
-{% load ultracore_tags wagtailblog_tags %}
+{% load ultracore_tags wagtailblog_tags static %}
 
 {% block content %}
 
   {% include "ultracore/includes/body.html" with body=self.body only %}
+
+        <div id="slider" class="row">
+            <div class="large-12 columns">
+                <img src="{% static "images/slider.jpg" %}" alt="none" title="" >
+            </div>
+        </div> <!-- end slider -->
+
+        <!-- Loop de servicios -->
+        <div id="site-section" class="row">
+        {% block adverts %}
+            {# Uses a snippet - allows adverts to appear on every page #}
+            {% adverts %}
+        {% endblock %}
+        </div>
 
 {% endblock %}
