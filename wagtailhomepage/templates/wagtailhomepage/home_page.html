@@ -7,7 +7,7 @@
 
         <div id="slider" class="row">
             <div class="large-12 columns">
-                <img src="{% static "images/slider.jpg" %}" alt="none" title="" >
+                {% include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
             </div>
         </div> <!-- end slider -->
 

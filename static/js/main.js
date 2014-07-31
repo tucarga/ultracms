@@ -14,6 +14,6 @@ $(document).ready(function() {
 
 // Resize function for the proyect hover
 $(window).resize(function() {
-    $(".overlay").css("width", $(".loop-servicios img").width());
+    $(".overlay").css("width", $(".loop-servicios").width());
 });
 
