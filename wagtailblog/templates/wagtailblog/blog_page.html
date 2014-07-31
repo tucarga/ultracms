@@ -13,6 +13,27 @@
 {% block content %}
     {# % include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only % #}
 
+    {# elementos que estan al mismo nivel(hermanos) para hacer el menu que va a la izquierda #}
+    <ul>
+
+    {% for item in self.get_siblings %}
+
+      {# se puede saber cual es el elemento actual #}
+
+      {% if self.specific == item.specific %}
+
+	<li><a href="{% pageurl item %}" class="active">{{ item.title }}</a></li>
+
+      {% else %}
+
+	<li><a href="{% pageurl item %}">{{ item.title }}</a></li>
+
+      {% endif %}
+
+    {% endfor %}
+
+    </ul>
+
     {% include "ultracore/includes/body.html" with body=self.body only %}
 
     {% with self.tags.all as tags %}
