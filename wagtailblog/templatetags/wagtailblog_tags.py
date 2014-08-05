@@ -1,6 +1,6 @@
 from django import template
 
-from wagtailblog.models import BlogPage, BlogIndexPage
+from wagtailblog.models import BlogPage
 
 register = template.Library()
 

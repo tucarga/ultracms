@@ -1,49 +1,61 @@
 {% extends "ultracore/base.html" %}
 {% load pageurl %}
 
-
 {% if self.date %}
-    {% block heading %}
-        <div class="page-header">
-            <h2>{{ self.title }} {{ self.date|date:"j F Y" }}</h2>
-        </div>
-    {% endblock %}
+
+{% block heading %}
+
+<div class="page-header">
+  <h2>{{ self.title }} {{ self.date|date:"j F Y" }}</h2>
+</div>
+
+{% endblock %}
+
 {% endif %}
 
 {% block content %}
-    {# % include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only % #}
 
-    {# elementos que estan al mismo nivel(hermanos) para hacer el menu que va a la izquierda #}
-    <ul>
+{# % include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only % #}
 
-    {% for item in self.get_siblings %}
+{# elementos que estan al mismo nivel(hermanos) para hacer el menu que va a la izquierda #}
+<ul>
 
-      {# se puede saber cual es el elemento actual #}
+  {% for item in self.get_siblings %}
 
-      {% if self.specific == item.specific %}
+  {# se puede saber cual es el elemento actual #}
 
-	<li><a href="{% pageurl item %}" class="active">{{ item.title }}</a></li>
+  {% if self.specific == item.specific %}
 
-      {% else %}
+  <li><a href="{% pageurl item %}" class="active">{{ item.title }}</a></li>
 
-	<li><a href="{% pageurl item %}">{{ item.title }}</a></li>
+  {% else %}
 
-      {% endif %}
+  <li><a href="{% pageurl item %}">{{ item.title }}</a></li>
 
-    {% endfor %}
+  {% endif %}
 
-    </ul>
+  {% endfor %}
 
-    {% include "ultracore/includes/body.html" with body=self.body only %}
+</ul>
 
-    {% with self.tags.all as tags %}
-        {% if tags %}
-            <div class="page-header"><h3>Tags</h3></div>
-            {% for tag in tags %}
-                <a href="{% pageurl self.blog_index %}?tag={{ tag }}"><button class="btn btn-primary" type="button">{{ tag }}</button></a>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+{% include "ultracore/includes/body.html" with body=self.body only %}
 
-    {# % include "ultracore/includes/related_links.html" with related_links=self.related_links.all only % #}
+{% with self.tags.all as tags %}
+
+{% if tags %}
+
+<div class="page-header"><h3>Tags</h3></div>
+
+{% for tag in tags %}
+
+<a href="{% pageurl self.blog_index %}?tag={{ tag }}"><button class="btn btn-primary" type="button">{{ tag }}</button></a>
+
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+{# % include "ultracore/includes/related_links.html" with related_links=self.related_links.all only % #}
+
 {% endblock %}

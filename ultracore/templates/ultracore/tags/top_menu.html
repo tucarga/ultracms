@@ -3,34 +3,45 @@
 
 {# Implementation of foundation theme dropdown menu - shows top level links and their children #}
 
-      <nav class="top-bar" data-topbar>
-        <ul class="title-area">
-          <li class="name">
-            <h1>
-                {# Link to home page #}
-                <a href="{% pageurl site_root %}" class="navbar-brand"><img src="{% static "images/ultramar.jpg" %}" alt="none" title="Ultramar!" ></a>
-            </h1>
-          </li>
-           <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+<nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1>
+        {# Link to home page #}
+        <a href="{% pageurl site_root %}" class="navbar-brand"><img src="{% static "images/ultramar.jpg" %}" alt="none" title="Ultramar!" ></a>
+      </h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+
+      {% for menuitem in menuitems %}
+
+      <li class="{% if menuitem.show_dropdown %}has-dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
+
+        {% if menuitem.show_dropdown %}
+
+        <ul class="dropdown">
+          <li><a href="#">{{ menuitem.title }}</a></li>
         </ul>
 
-        <section class="top-bar-section">
-          <!-- Right Nav Section -->
-          <ul class="right">
-            {% for menuitem in menuitems %}
-            <li class="{% if menuitem.show_dropdown %}has-dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
-                {% if menuitem.show_dropdown %}
-                    <ul class="dropdown">
-                        <li><a href="#">{{ menuitem.title }}</a></li>
-                    </ul>
-                    {% top_menu_children parent=menuitem %}
-                {% else %}
-                    <a href="#">{{ menuitem.title }}</a>
-                {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </section>
-      </nav>
+        {% top_menu_children parent=menuitem %}
+
+        {% else %}
+
+        <a href="#">{{ menuitem.title }}</a>
+
+        {% endif %}
+
+      </li>
+
+      {% endfor %}
+
+    </ul>
+  </section>
+</nav>
 
