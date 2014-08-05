@@ -98,62 +98,21 @@
 
     </div> <!-- end content -->
 
-
     <footer>
       <div class="row">
         <div class="large-12 columns">
         <hr>
-          <div class="loop-footer">
-            <ul>
-              <li class="header">Nombre menu</li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-            </ul>
-          </div> <!-- end loop footer -->
-          <div class="loop-footer">
-            <ul>
-              <li class="header">Nombre menu</li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-            </ul>
-          </div> <!-- end loop footer -->
-          <div class="loop-footer">
-            <ul>
-              <li class="header">Nombre menu</li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-            </ul>
-          </div> <!-- end loop footer -->
-          <div class="loop-footer">
-            <ul>
-              <li class="header">Nombre menu</li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-            </ul>
-          </div> <!-- end loop footer -->
-          <div class="loop-footer">
-            <ul>
-              <li class="header">Nombre menu</li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-              <li><a href="" title="">Menu 1</a></li>
-            </ul>
-          </div> <!-- end loop footer -->
+        {% block footer %}
+
+        {% footers %}
+
+        {% endblock %}
+
           <br class="clear">
           <p class="disclaimer">Ultramar Ltda. © Todos los derechos reservados</p>
         </div>
       </div>
     </footer>
-
 
         {# Base javascript #}
             <script src="{% static "js/jquery.min.js" %}"></script>

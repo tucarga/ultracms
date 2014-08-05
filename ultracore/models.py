@@ -111,3 +111,18 @@ class Advert(models.Model):
         return self.title
 
 register_snippet(Advert)
+
+
+class Footer(models.Model):
+    title = models.CharField(max_length=255)
+    body = RichTextField()
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('body'),
+    ]
+
+    def __unicode__(self):
+        return self.title
+
+register_snippet(Footer)
