@@ -7,3 +7,6 @@ README.html
 static/CACHE
 images/
 original_images/
+front/bower_components
+front/css
+front/node_modules

@@ -108,7 +108,7 @@ class Advert(models.Model):
     ]
 
     def __unicode__(self):
-        return self.title
+        return u'{} {}'.format(self.title, self.sub_title)
 
 register_snippet(Advert)
 

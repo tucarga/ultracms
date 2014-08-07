@@ -6,7 +6,10 @@ $(document).ready(function() {
     $(".overlay").css("width", $(".loop-servicios").width());
     /* Initialise bxSlider */
     $('.bxslider').bxSlider({
-        captions: true
+        captions: true,
+	pager: false,
+	controls: false,
+	auto: true
     });
     //Apply img-thumbnail class to body-content images
     $('.body-content img').addClass("img-thumbnail");

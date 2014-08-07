@@ -1,0 +1,72 @@
+// Basic setting
+@mixin left {@include float-left;}
+@mixin right {@include float-right;}
+@mixin clear {@include clearfix;}
+@mixin none {display: none;}
+@mixin block {display: block;}
+
+@mixin bold {font-weight: bold;}
+@mixin normal {font-weight: normal;}
+@mixin light {font-weight: 300;}
+
+.none {@include none;}
+.clear {clear: both;}
+
+// Color variables
+// I need to make a refactoring for rgba colors
+$white: #ffffff;
+$background: $white;
+
+// Function to make a custom button, don't necessary in this case
+// @mixin basic-button($bg-color:$primary-color, $text-color: $white, $size: 14, $padding: 35) {
+//     background: $bg-color;
+//     color: $text-color;
+//     font-size: rem-calc($size);
+//     box-shadow: inset 0 -2px 0 darken($bg-color, 20%);
+//     padding: rem-calc(11) rem-calc($padding) rem-calc(12);
+//     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+//     &:hover {
+//         background: darken($bg-color, 5%);
+//         box-shadow: inset 0 -2px 0 darken($bg-color, 20%);
+//     }
+// }
+
+#slider {
+    img {margin: 2em 0;}
+}
+
+// Loop servicios y representaciones
+.loop-servicios {
+    .title {
+        position: absolute;
+        margin: 15px 0 0 15px;
+        h5, h3 {
+            color: $white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            line-height: 1.2;
+        }
+        h3 {font-size: rem-calc(22);}
+        h5 {font-size: rem-calc(14);}
+    }
+    .overlay {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        width: 100%;
+        ul {
+            margin-left: 15px;
+            margin-bottom: 5px;
+            li {
+                list-style: none;
+                a {
+                    font-weight: 300;
+                    color: $white;
+                    font-size: rem-calc(14);
+                    &:hover {text-decoration: underline;}
+                }
+            }
+        }
+    }
+    img {border-radius: 3px;}
+}

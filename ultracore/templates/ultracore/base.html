@@ -25,7 +25,7 @@
     {% endcompress %}
 
     {% block extra_css %}
-    <link rel="stylesheet" type="text/x-scss" href="{% static "css/main.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}" />
     {% endblock %} {# Override this block in individual templates in order to add stylesheets on a template by template basis #}
 
     {# Javascript that needs to be called from head e.g. google analytics snippet and bootstrap shivs #}
@@ -55,21 +55,21 @@
     <div id="header" class="row">
       <div class="large-12 columns">
         <div class="button-tool clearfix">
-          <div class="form-right">
-            <form action="{% url "set_language" %}" method="post">
-              {% csrf_token %}
-              <input name="next" type="hidden" value="{{ redirect_to }}" />
-              <select name="language">
-                {% get_language_info_list for LANGUAGES as languages %}
-                {% for language in languages %}
-                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>{{ language.name_local }} ({{ language.code }})</option>
-                {% endfor %}
-              </select>
-              <input type="submit" value="Go"  class="button small radius" />
-            </form>
-          </div>
+          <!-- <div class="form-right"> -->
+          <!--   <form action="{% url "set_language" %}" method="post"> -->
+          <!--     {% csrf_token %} -->
+          <!--     <input name="next" type="hidden" value="{{ redirect_to }}" /> -->
+          <!--     <select name="language"> -->
+          <!--       {% get_language_info_list for LANGUAGES as languages %} -->
+          <!--       {% for language in languages %} -->
+          <!--       <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>{{ language.name_local }} ({{ language.code }})</option> -->
+          <!--       {% endfor %} -->
+          <!--     </select> -->
+          <!--     <input type="submit" value="Go"  class="button small radius" /> -->
+          <!--   </form> -->
+          <!-- </div> -->
 
-          <a href="" title="" class="pay button radius">Pago en linea</a>
+          <!-- <a href="" title="" class="pay button radius">Pago en linea</a> -->
 
         </div>
 
@@ -89,9 +89,9 @@
 
 	{% block heading %}
 
-	<div class="page-header">
-          <h2>{{ self.title }}</h2>
-	</div>
+	<!-- <div class="page-header"> -->
+        <!--   <h2>{{ self.title }}</h2> -->
+	<!-- </div> -->
 
 	{% endblock %}
 
