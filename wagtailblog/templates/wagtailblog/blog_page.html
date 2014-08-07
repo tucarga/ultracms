@@ -1,13 +1,19 @@
 {% extends "ultracore/base.html" %}
-{% load pageurl %}
+{% load pageurl image_tags %}
 
 {% if self.date %}
 
 {% block heading %}
 
-<div class="page-header">
-  <h2>{{ self.title }} {{ self.date|date:"j F Y" }}</h2>
-</div>
+<div class="row">
+  <div class="large-12 columns">
+
+    {% image self.feed_image max-1000x250 as feed_image %}
+
+    <img src="{{ feed_image.url }}" width="{{ feed_image.width }}" height="{{ feed_image.height }}" alt="{{ feed_image.alt }}" title="{{ self.title }}" />
+
+  </div> <!-- end large-12 -->
+</div> <!-- end row -->
 
 {% endblock %}
 
@@ -15,30 +21,18 @@
 
 {% block content %}
 
-{# % include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only % #}
+<div class="row">
+  <div class="large-3 columns">
 
-{# elementos que estan al mismo nivel(hermanos) para hacer el menu que va a la izquierda #}
-<ul>
+    {{ self.title }}
 
-  {% for item in self.get_siblings %}
+  </div> <!-- end large-2 -->
+  <div class="large-9 columns">
 
-  {# se puede saber cual es el elemento actual #}
+    {% include "ultracore/includes/body.html" with body=self.body only %}
 
-  {% if self.specific == item.specific %}
-
-  <li><a href="{% pageurl item %}" class="active">{{ item.title }}</a></li>
-
-  {% else %}
-
-  <li><a href="{% pageurl item %}">{{ item.title }}</a></li>
-
-  {% endif %}
-
-  {% endfor %}
-
-</ul>
-
-{% include "ultracore/includes/body.html" with body=self.body only %}
+  </div> <!-- end large-8 -->
+</div> <!-- end row -->
 
 {% with self.tags.all as tags %}
 

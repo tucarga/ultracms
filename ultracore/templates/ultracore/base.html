@@ -84,22 +84,18 @@
     </div><!-- header -->
 
     <div id="content">
+      <div class="container">
+	<div id="heading">
 
-      <div class="container theme-showcase">
+	  {% block heading %}
 
-	{% block heading %}
+	  {% endblock %}
 
-	<!-- <div class="page-header"> -->
-        <!--   <h2>{{ self.title }}</h2> -->
-	<!-- </div> -->
-
-	{% endblock %}
+	</div>
 
 	{% block content %}
 
 	{% endblock %}
-
-      </div> <!-- end content -->
 
       {% comment %}
 

@@ -11,8 +11,7 @@
     {% image carousel_item.image max-1000x250 as carouselimagedata %}
 
     <img src="{{ carouselimagedata.url }}" width="{{ carouselimagedata.width }}" height="{{ carouselimagedata.height }}" alt="{{ carouselimagedata.alt }}" title="{{ carousel_item.caption }}" />
-</a>
-</li>
+  </li>
 
 {% endfor %}
 
