@@ -8,7 +8,8 @@
     <li class="name">
       <h1>
         {# Link to home page #}
-        <a href="{% pageurl site_root %}" class="navbar-brand"><img src="{% static "images/ultramar.jpg" %}" alt="none" title="Ultramar!" ></a>
+        <a href="{% pageurl site_root %}"><img src="{% static "images/ultramar.jpg" %}" alt="none" title="Ultramar!" ></a>
+        {#<a href="{% pageurl site_root %}" class="navbar-brand"><img src="{% static "images/ultramar.jpg" %}" alt="none" title="Ultramar!" ></a>#}
       </h1>
     </li>
     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
@@ -16,7 +17,6 @@
   </ul>
 
   <section class="top-bar-section">
-    <!-- Right Nav Section -->
     <ul class="right">
 
       {% for menuitem in menuitems %}
@@ -25,9 +25,7 @@
 
         {% if menuitem.show_dropdown %}
 
-        <ul class="dropdown">
-          <li><a href="#">{{ menuitem.title }}</a></li>
-        </ul>
+        <a href="#">{{ menuitem.title }}</a>
 
         {% top_menu_children parent=menuitem %}
 

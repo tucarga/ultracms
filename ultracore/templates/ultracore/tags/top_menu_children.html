@@ -1,8 +1,6 @@
 {% load ultracore_tags pageurl %}
 
-<ul class="dropdown-menu">
-  {# Include link to parent because the parent link is a drop down #}
-  <li><a href="{% pageurl parent %}">{{ parent.title }}</a></li>
+<ul class="dropdown">
 
   {% for child in menuitems_children %}
 
