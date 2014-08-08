@@ -53,12 +53,12 @@
   <body class="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
 
     <div id="header" class="row">
-      <div class="large-2 large-offset-8 column">
+      <div class="large-2 large-offset-8 column hide-for-medium-down">
         <a href="" title="" class="pay button tiny radius alert">Pago en linea</a>
       </div>
       {% get_language_info_list for LANGUAGES as languages %}
       {% for language in languages %}
-      <div class="large-1 column">
+      <div class="large-1 column hide-for-medium-down">
 	<form action="{% url "set_language" %}" method="post">
           {% csrf_token %}
           <input name="next" type="hidden" value="?" />
