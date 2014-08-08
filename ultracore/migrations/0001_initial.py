@@ -37,7 +37,6 @@ class Migration(SchemaMigration):
         db.create_table(u'ultracore_advert', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('sub_title', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
             ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
         ))
@@ -108,7 +107,6 @@ class Migration(SchemaMigration):
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'sub_title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'ultracore.footer': {
@@ -162,6 +160,10 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Image'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'file': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
+            'focal_point_height': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_width': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_x': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_y': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'height': ('django.db.models.fields.IntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),

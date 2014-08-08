@@ -90,7 +90,6 @@ FormPage.content_panels = [
 
 class Advert(models.Model):
     title = models.CharField(max_length=255)
-    sub_title = models.CharField(max_length=255, blank=True)
     body = RichTextField()
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -102,13 +101,12 @@ class Advert(models.Model):
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('sub_title'),
         FieldPanel('body'),
         ImageChooserPanel('feed_image'),
     ]
 
     def __unicode__(self):
-        return u'{} {}'.format(self.title, self.sub_title)
+        return self.title
 
 register_snippet(Advert)
 
