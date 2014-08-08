@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
         # Adding model 'Footer'
         db.create_table(u'ultracore_footer', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
         ))
         db.send_create_signal(u'ultracore', ['Footer'])
@@ -113,7 +113,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Footer'},
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         },
         u'ultracore.formfield': {
             'Meta': {'ordering': "['sort_order']", 'object_name': 'FormField'},

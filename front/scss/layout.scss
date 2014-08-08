@@ -80,3 +80,15 @@ img {
 {
     box-shadow: 0 0 0 0;
 }
+
+.loop-footer {
+  font-size: 10px;
+  .footer a {
+    padding-right: 5px;
+    float: left;
+    color: #000;
+    &:hover {
+      color: #008cba;
+    };
+  }
+}

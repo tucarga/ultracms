@@ -1,12 +1,15 @@
 {% load rich_text %}
 
-{% for footer in footers %}
+<div class="row">
+  <div class="loop-footer large-10 large-offset-1 small-10 small-offset-1">
 
-<div class="loop-footer">
-  <ul>
-    <li class="header">{{ footer.title }}</li>
-  </ul>
-  {{ footer.body|richtext }}
+  {% for footer in footers %}
+
+  <div class="footer">
+    {{ footer.body|richtext }}
+  </div>
+
+  {% endfor %}
+
+  </div>
 </div> <!-- end loop footer -->
-
-{% endfor %}
