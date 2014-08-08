@@ -17,11 +17,6 @@
 $white: #ffffff;
 $background: $white;
 
-
-#slider {
-  img {margin: 2em 0;}
-}
-
 // Loop servicios y representaciones
 .loop-servicios {
   .title {
@@ -77,4 +72,9 @@ img {
   font-size: 10px;
   line-height: 14px;
   padding: 0;
+}
+
+.bx-wrapper .bx-viewport
+{
+    box-shadow: 0 0 0 0;
 }
