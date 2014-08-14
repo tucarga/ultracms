@@ -1,19 +1,23 @@
-{% load rich_text image_tags %}
+{% load rich_text image_tags debug_tags %}
 
-{% for advert in adverts %}
+<ul class="bxslider-adverts">
 
-<div class="large-3 medium-3 small-6 columns">
-  <div class="loop-servicios">
-    <div class="title">
-      <h1>{{ advert.title }}</h1>
-    </div>
-    <div class="overlay">
-      {{ advert.body|richtext }}
-    </div>
+  {% for advert in adverts %}
 
-    {% image advert.feed_image max-600x600 class="algo" %}
+  <li>
 
-  </div>
-</div>
+    {% with advert.link as link %}
 
-{% endfor %}
+    {% if link %}<a href="{{ link }}">{% endif %}
+
+    {% image advert.feed_image width-180 class="algo" %}
+
+    {% if link %}</a>{% endif %}
+
+    {% endwith %}
+
+  </li>
+
+  {% endfor %}
+
+</ul>

@@ -3,20 +3,20 @@ $(document).foundation();
 
 // Function of the site
 $(document).ready(function() {
-    $(".overlay").css("width", $(".loop-servicios").width());
     /* Initialise bxSlider */
     $('.bxslider').bxSlider({
         captions: true,
 	pager: false,
 	controls: false,
-	auto: true
+	auto: true,
+	slideWidth: 780,
     });
-    //Apply img-thumbnail class to body-content images
-    $('.body-content img').addClass("img-thumbnail");
+    $('.bxslider-adverts').bxSlider({
+        captions: true,
+	pager: false,
+	controls: true,
+	minSlides: 4,
+	maxSlides: 4,
+	slideWidth: 200,
+    });
 });
-
-// Resize function for the proyect hover
-$(window).resize(function() {
-    $(".overlay").css("width", $(".loop-servicios").width());
-});
-

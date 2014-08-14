@@ -6,20 +6,22 @@
 {% include "ultracore/includes/body.html" with body=self.body only %}
 
 <div class="row">
-  <div class="large-12 columns">
+  <div id="wrong" class="large-10 large-offset-1 columns">
 
     {% include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
 
-  </div> <!-- end large-12 -->
-</div> <!-- end row -->
-
+  </div>
+</div>
 
 <!-- Loop de servicios -->
 <div id="site-section" class="row">
+
   {% block adverts %}
-  {# Uses a snippet - allows adverts to appear on every page #}
+
   {% adverts %}
+
   {% endblock %}
+
 </div>
 
 {% endblock %}

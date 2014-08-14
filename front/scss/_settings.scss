@@ -814,12 +814,13 @@ $magellan-padding: 0 !important;
 
 // Panels
 
-// $include-html-panel-classes: $include-html-classes;
+$include-html-panel-classes: $include-html-classes;
 
 // We use these to control the background and border styles
 // $panel-bg: scale-color(#fff, $lightness: -5%);
-// $panel-border-style: solid;
-// $panel-border-size: 1px;
+$panel-bg: rgba(0, 0, 0, 0.6);
+$panel-border-style: none;
+$panel-border-size: 1px;
 
 // We use this % to control how much we darken things on hover
 // $panel-function-factor: -11%;
@@ -1192,7 +1193,7 @@ $sub-nav-active-cursor: default;
 $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: #fff;
+$topbar-bg-color: rgba(255,255,255, 0.0);
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1204,25 +1205,25 @@ $topbar-bg-color: #fff;
 // $topbar-title-font-size: rem-calc(17);
 
 // Style the top bar dropdown elements
-$topbar-dropdown-bg: rgba(242, 240, 240, 1);
-$topbar-dropdown-link-color: #000;
-$topbar-dropdown-link-bg: rgba(242, 240, 240, 1);
+$topbar-dropdown-bg: rgba(0 ,0 ,0, 0.0);
+$topbar-dropdown-link-color: rgba(0, 0, 0, 1);
+$topbar-dropdown-link-bg: rgba(230, 230, 230, 0.8);
 // $topbar-dropdown-link-weight: $font-weight-normal;
 // $topbar-dropdown-toggle-size: 5px;
 // $topbar-dropdown-toggle-color: #fff;
 // $topbar-dropdown-toggle-alpha: 0.4;
 
 // Set the link colors and styles for top-level nav
-$topbar-link-color: #000;
-$topbar-link-color-hover: #06c;
+$topbar-link-color: rgba(0, 0, 0, 1);
+$topbar-link-color-hover: rgba(0, 95, 207, 1);
 // $topbar-link-color-active: #fff;
 // $topbar-link-color-active-hover: #fff;
 // $topbar-link-weight: $font-weight-normal;
 // $topbar-link-font-size: rem-calc(13);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
-// $topbar-link-bg: $topbar-bg;
-// $topbar-link-bg-color-hover: #fff;
-$topbar-link-bg-hover: #fff;
+$topbar-link-bg: rgba(230, 230, 230, 0.7);
+$topbar-link-bg-color-hover: rgba(0, 0, 0, 1);
+$topbar-link-bg-hover: rgba(230, 230, 230, 0.7);
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
