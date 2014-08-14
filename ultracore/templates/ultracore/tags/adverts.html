@@ -1,5 +1,7 @@
 {% load rich_text image_tags debug_tags %}
 
+{% if adverts %}
+
 <ul class="bxslider-adverts">
 
   {% for advert in adverts %}
@@ -21,3 +23,5 @@
   {% endfor %}
 
 </ul>
+
+{% endif %}
