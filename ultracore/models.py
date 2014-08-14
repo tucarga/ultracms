@@ -9,6 +9,8 @@ from wagtail.wagtailforms.models import AbstractEmailForm, AbstractFormField
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 
+from wagtailsettings.models import register_setting, BaseSetting
+
 
 class LinkFields(models.Model):
     link_external = models.URLField("External link", blank=True)
@@ -124,3 +126,34 @@ class Footer(models.Model):
         return self.name
 
 register_snippet(Footer)
+
+
+# Settings
+
+@register_setting
+class SiteSetting(BaseSetting):
+    title = models.CharField(max_length=255)
+    site_logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    background_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    footer = RichTextField()
+    disclaimer = RichTextField()
+
+    panels = [
+        FieldPanel('title'),
+        ImageChooserPanel('site_logo'),
+        ImageChooserPanel('background_image'),
+        FieldPanel('footer'),
+        FieldPanel('disclaimer'),
+    ]

@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     # Local apps
     'wagtailhomepage',
     'wagtailblog',
+    'wagtailsettings',
 
     # project utils
     'ultracore',

@@ -50,6 +50,18 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Footer'])
 
+        # Adding model 'SiteSetting'
+        db.create_table(u'ultracore_sitesetting', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('site', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Site'], unique=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('site_logo', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
+            ('background_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
+            ('footer', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
+            ('disclaimer', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
+        ))
+        db.send_create_signal(u'ultracore', ['SiteSetting'])
+
 
     def backwards(self, orm):
         # Deleting model 'FormField'
@@ -63,6 +75,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Footer'
         db.delete_table(u'ultracore_footer')
+
+        # Deleting model 'SiteSetting'
+        db.delete_table(u'ultracore_sitesetting')
 
 
     models = {
@@ -136,6 +151,16 @@ class Migration(SchemaMigration):
             'thank_you_text': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'to_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
         },
+        u'ultracore.sitesetting': {
+            'Meta': {'object_name': 'SiteSetting'},
+            'background_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            'disclaimer': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
+            'footer': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'site': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Site']", 'unique': 'True'}),
+            'site_logo': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
         u'wagtailcore.page': {
             'Meta': {'object_name': 'Page'},
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pages'", 'to': u"orm['contenttypes.ContentType']"}),
@@ -155,6 +180,14 @@ class Migration(SchemaMigration):
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'url_path': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
+        },
+        u'wagtailcore.site': {
+            'Meta': {'unique_together': "(('hostname', 'port'),)", 'object_name': 'Site'},
+            'hostname': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_default_site': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'port': ('django.db.models.fields.IntegerField', [], {'default': '80'}),
+            'root_page': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sites_rooted_here'", 'to': u"orm['wagtailcore.Page']"})
         },
         u'wagtailimages.image': {
             'Meta': {'object_name': 'Image'},
