@@ -7,6 +7,7 @@ from wagtail.wagtailcore import hooks
 def editor_js():
     js_files = [
         'js/ultracore-hallojustify.js',
+        'js/ultracore-hallofontsize.js',
     ]
     js_includes = format_html_join(
         '\n', '<script src="{0}{1}"></script>',
@@ -17,6 +18,7 @@ def editor_js():
         """
         <script>
         registerHalloPlugin('ultracore-hallojustify');
+        registerHalloPlugin('ultracore-hallofontsize');
         </script>
         """
     )
