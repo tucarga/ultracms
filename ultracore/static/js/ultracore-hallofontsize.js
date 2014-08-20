@@ -24,7 +24,7 @@
           cssClass: _this.options.buttonCssClass
         });
 	// overrides button font
-	buttonElement.find('.ui-button-text').text(size + '');
+	buttonElement.find('.ui-button-text').text('A' + size);
         return buttonset.append(buttonElement);
       };
       buttonize("Font 1", "fontSize", 1);
