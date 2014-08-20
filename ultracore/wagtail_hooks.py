@@ -10,6 +10,7 @@ def editor_js():
         'js/ultracore-hallojustify.js',
         'js/ultracore-hallocolorpicker.js',
         'js/ultracore-hallofontsize.js',
+        'js/ultracore-hallofontfamily.js',
     ]
     js_includes = format_html_join(
         '\n', '<script src="{0}{1}"></script>',
@@ -22,6 +23,7 @@ def editor_js():
         registerHalloPlugin('ultracore-hallojustify');
         registerHalloPlugin('ultracore-hallocolorpicker');
         registerHalloPlugin('ultracore-hallofontsize');
+        registerHalloPlugin('ultracore-hallofontfamily');
         </script>
         """
     )
