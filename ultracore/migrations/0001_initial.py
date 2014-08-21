@@ -42,14 +42,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Advert'])
 
-        # Adding model 'Footer'
-        db.create_table(u'ultracore_footer', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
-        ))
-        db.send_create_signal(u'ultracore', ['Footer'])
-
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -72,9 +64,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Advert'
         db.delete_table(u'ultracore_advert')
-
-        # Deleting model 'Footer'
-        db.delete_table(u'ultracore_footer')
 
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
@@ -123,12 +112,6 @@ class Migration(SchemaMigration):
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        },
-        u'ultracore.footer': {
-            'Meta': {'object_name': 'Footer'},
-            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         },
         u'ultracore.formfield': {
             'Meta': {'ordering': "['sort_order']", 'object_name': 'FormField'},

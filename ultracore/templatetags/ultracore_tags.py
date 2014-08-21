@@ -1,6 +1,6 @@
 from django import template
 
-from ultracore.models import Advert, Footer
+from ultracore.models import Advert
 
 register = template.Library()
 
@@ -76,13 +76,5 @@ def secondary_menu(context, calling_page=None):
 def adverts(context):
     return {
         'adverts': Advert.objects.all(),
-        'request': context['request'],
-    }
-
-
-@register.inclusion_tag('ultracore/tags/footers.html', takes_context=True)
-def footers(context):
-    return {
-        'footers': Footer.objects.all(),
         'request': context['request'],
     }
