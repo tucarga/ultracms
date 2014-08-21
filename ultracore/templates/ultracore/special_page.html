@@ -1,0 +1,36 @@
+{% extends "ultracore/base.html" %}
+{% load pageurl image_tags wagtailcore_tags %}
+
+{% block content %}
+
+<div class="row">
+  <div id="special-image" class="large-12 columns">
+
+    {% image self.feed_image width-960 %}
+
+  </div>
+</div>
+
+<div class="row"><!-- container -->
+  <div class="large-3 columns">
+
+    {{ self.title }}
+    {{ self.sub_menu|richtext }}
+
+  </div>
+  <div class="large-6 columns">
+
+    {% include "ultracore/includes/body.html" with body=self.body only %}
+
+  </div>
+  <div class="large-3 columns">
+
+    {#% contacts %#}
+
+  </div>
+</div> <!-- end row -->
+
+  </div>
+</div> <!-- end row -->
+
+{% endblock %}

@@ -98,7 +98,7 @@ class StandardPage(wagtail_models.Page):
     indexed_fields = ('body', )
 
     class Meta:
-        verbose_name = "StandarPage"
+        verbose_name = "StandardPage"
 
 StandardPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -106,6 +106,35 @@ StandardPage.content_panels = [
 ]
 
 StandardPage.promote_panels = [
+    MultiFieldPanel(
+        wagtail_models.Page.promote_panels, "Common page configuration"),
+]
+
+
+class SpecialPage(wagtail_models.Page):
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    sub_menu = RichTextField(blank=True)
+    body = RichTextField(blank=True)
+
+    indexed_fields = ('body', )
+
+    class Meta:
+        verbose_name = "SpecialPage"
+
+SpecialPage.content_panels = [
+    ImageChooserPanel('feed_image'),
+    FieldPanel('title', classname="full title"),
+    FieldPanel('sub_menu', classname="full"),
+    FieldPanel('body', classname="full"),
+]
+
+SpecialPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
 ]

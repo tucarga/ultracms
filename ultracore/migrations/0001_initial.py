@@ -40,6 +40,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['StandardPage'])
 
+        # Adding model 'SpecialPage'
+        db.create_table(u'ultracore_specialpage', (
+            (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
+            ('sub_menu', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['SpecialPage'])
+
         # Adding model 'Advert'
         db.create_table(u'ultracore_advert', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -71,6 +80,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'StandardPage'
         db.delete_table(u'ultracore_standardpage')
+
+        # Deleting model 'SpecialPage'
+        db.delete_table(u'ultracore_specialpage')
 
         # Deleting model 'Advert'
         db.delete_table(u'ultracore_advert')
@@ -153,6 +165,13 @@ class Migration(SchemaMigration):
             'site': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Site']", 'unique': 'True'}),
             'site_logo': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        u'ultracore.specialpage': {
+            'Meta': {'object_name': 'SpecialPage', '_ormbases': [u'wagtailcore.Page']},
+            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
+            'sub_menu': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'})
         },
         u'ultracore.standardpage': {
             'Meta': {'object_name': 'StandardPage', '_ormbases': [u'wagtailcore.Page']},
