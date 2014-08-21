@@ -3,11 +3,13 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
     InlinePanel, PageChooserPanel
+from wagtail.wagtailcore import models as wagtail_models
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailforms.models import AbstractEmailForm, AbstractFormField
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
+
 
 from wagtailsettings.models import register_setting, BaseSetting
 
@@ -87,6 +89,25 @@ FormPage.content_panels = [
         FieldPanel('from_address', classname="full"),
         FieldPanel('subject', classname="full"),
     ], "Email")
+]
+
+
+class StandardPage(wagtail_models.Page):
+    body = RichTextField(blank=True)
+
+    indexed_fields = ('body', )
+
+    class Meta:
+        verbose_name = "StandarPage"
+
+StandardPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('body', classname="full"),
+]
+
+StandardPage.promote_panels = [
+    MultiFieldPanel(
+        wagtail_models.Page.promote_panels, "Common page configuration"),
 ]
 
 

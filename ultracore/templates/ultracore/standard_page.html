@@ -1,0 +1,14 @@
+{% extends "ultracore/base.html" %}
+{% load pageurl image_tags %}
+
+{% block content %}
+
+<div class="row">
+  <div class="large-12 columns">
+
+    {% include "ultracore/includes/body.html" with body=self.body only %}
+
+  </div>
+</div> <!-- end row -->
+
+{% endblock %}

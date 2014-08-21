@@ -33,6 +33,13 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['FormPage'])
 
+        # Adding model 'StandardPage'
+        db.create_table(u'ultracore_standardpage', (
+            (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['StandardPage'])
+
         # Adding model 'Advert'
         db.create_table(u'ultracore_advert', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -61,6 +68,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'FormPage'
         db.delete_table(u'ultracore_formpage')
+
+        # Deleting model 'StandardPage'
+        db.delete_table(u'ultracore_standardpage')
 
         # Deleting model 'Advert'
         db.delete_table(u'ultracore_advert')
@@ -143,6 +153,11 @@ class Migration(SchemaMigration):
             'site': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Site']", 'unique': 'True'}),
             'site_logo': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        u'ultracore.standardpage': {
+            'Meta': {'object_name': 'StandardPage', '_ormbases': [u'wagtailcore.Page']},
+            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'wagtailcore.page': {
             'Meta': {'object_name': 'Page'},
