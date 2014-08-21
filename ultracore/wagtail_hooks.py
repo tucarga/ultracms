@@ -3,32 +3,32 @@ from django.utils.html import format_html, format_html_join
 from wagtail.wagtailcore import hooks
 from wagtail.wagtailcore.whitelist import attribute_rule
 
+HALLO_PLUGINS = [
+    'ultracore-hallojustify',
+    'ultracore-hallocolorpicker',
+    'ultracore-hallofontsize',
+    'ultracore-hallofontfamily',
+    'ultracore-hallofontcolor',
+]
+
+if settings.DEBUG:
+    HALLO_PLUGINS.append('ultracore-hallohtml')
+
 
 @hooks.register('insert_editor_js')
 def editor_js():
-    js_files = [
-        'js/ultracore-hallojustify.js',
-        'js/ultracore-hallocolorpicker.js',
-        'js/ultracore-hallofontsize.js',
-        'js/ultracore-hallofontfamily.js',
-        'js/ultracore-hallofontcolor.js',
-    ]
+    js_files = ['js/' + plugin + '.js' for plugin in HALLO_PLUGINS]
     js_includes = format_html_join(
         '\n', '<script src="{0}{1}"></script>',
         ((settings.STATIC_URL, filename) for filename in js_files)
     )
-
-    return js_includes + format_html(
-        """
-        <script>
-        registerHalloPlugin('ultracore-hallojustify');
-        registerHalloPlugin('ultracore-hallocolorpicker');
-        registerHalloPlugin('ultracore-hallofontsize');
-        registerHalloPlugin('ultracore-hallofontfamily');
-        registerHalloPlugin('ultracore-hallofontcolor');
-        </script>
-        """
+    script_head = '<script>'
+    script_tail = '</script>'
+    plugins = '\n'.join(
+        'registerHalloPlugin("' + plugin + '");' for plugin in HALLO_PLUGINS
     )
+    script = script_head + plugins + script_tail
+    return js_includes + format_html(script)
 
 
 @hooks.register('insert_editor_css')
