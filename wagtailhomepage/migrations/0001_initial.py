@@ -25,7 +25,6 @@ class Migration(SchemaMigration):
         # Adding model 'HomePage'
         db.create_table(u'wagtailhomepage_homepage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
-            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
         db.send_create_signal(u'wagtailhomepage', ['HomePage'])
 
@@ -105,7 +104,6 @@ class Migration(SchemaMigration):
         },
         u'wagtailhomepage.homepage': {
             'Meta': {'object_name': 'HomePage', '_ormbases': [u'wagtailcore.Page']},
-            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'wagtailhomepage.homepagecarouselitem': {
@@ -124,6 +122,10 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Image'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'file': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
+            'focal_point_height': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_width': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_x': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'focal_point_y': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'height': ('django.db.models.fields.IntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),

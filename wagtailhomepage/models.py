@@ -12,20 +12,14 @@ class HomePageCarouselItem(wagtail_models.Orderable, CarouselItem):
 
 
 class HomePage(wagtail_models.Page):
-    body = fields.RichTextField(blank=True)
-
-    indexed_fields = ('body', )
 
     class Meta:
         verbose_name = "Homepage"
 
 HomePage.content_panels = [
     edit_handlers.FieldPanel('title', classname="full title"),
-    edit_handlers.FieldPanel('body', classname="full"),
     edit_handlers.InlinePanel(
         HomePage, 'carousel_items', label="Carousel items"),
-    # edit_handlers.InlinePanel(
-    #     HomePage, 'related_links', label="Related links"),
 ]
 
 HomePage.promote_panels = [
