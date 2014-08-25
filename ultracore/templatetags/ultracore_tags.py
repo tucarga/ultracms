@@ -1,6 +1,6 @@
 from django import template
 
-from ultracore.models import Advert
+from ultracore.models import Advert, Contact
 
 register = template.Library()
 
@@ -78,3 +78,8 @@ def adverts(context):
         'adverts': Advert.objects.all(),
         'request': context['request'],
     }
+
+
+@register.assignment_tag(takes_context=True)
+def get_contacts(context):
+    return Contact.objects.all()

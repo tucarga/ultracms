@@ -165,6 +165,25 @@ class Advert(models.Model):
 register_snippet(Advert)
 
 
+class Contact(models.Model):
+    full_name = models.CharField(max_length=100)
+    position = models.CharField(max_length=50)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+
+    panels = [
+        FieldPanel('full_name'),
+        FieldPanel('position'),
+        FieldPanel('phone'),
+        FieldPanel('email'),
+    ]
+
+    def __unicode__(self):
+        return self.full_name
+
+register_snippet(Contact)
+
+
 # Settings
 
 @register_setting

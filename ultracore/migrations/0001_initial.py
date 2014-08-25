@@ -59,6 +59,16 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Advert'])
 
+        # Adding model 'Contact'
+        db.create_table(u'ultracore_contact', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('full_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('position', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+        ))
+        db.send_create_signal(u'ultracore', ['Contact'])
+
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -87,6 +97,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Advert'
         db.delete_table(u'ultracore_advert')
+
+        # Deleting model 'Contact'
+        db.delete_table(u'ultracore_contact')
 
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
@@ -135,6 +148,14 @@ class Migration(SchemaMigration):
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        u'ultracore.contact': {
+            'Meta': {'object_name': 'Contact'},
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'full_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'phone': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'position': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         u'ultracore.formfield': {
             'Meta': {'ordering': "['sort_order']", 'object_name': 'FormField'},
