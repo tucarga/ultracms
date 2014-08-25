@@ -142,6 +142,25 @@ SpecialPage.promote_panels = [
 ]
 
 
+class DirectoryPage(wagtail_models.Page):
+    body = RichTextField(blank=True)
+
+    indexed_fields = ('body', )
+
+    class Meta:
+        verbose_name = "DirectoryPage"
+
+DirectoryPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('body', classname="full"),
+]
+
+SpecialPage.promote_panels = [
+    MultiFieldPanel(
+        wagtail_models.Page.promote_panels, "Common page configuration"),
+]
+
+
 class Advert(models.Model):
     title = models.CharField(max_length=255)
     body = RichTextField()

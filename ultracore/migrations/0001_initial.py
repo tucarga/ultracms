@@ -50,6 +50,13 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['SpecialPage'])
 
+        # Adding model 'DirectoryPage'
+        db.create_table(u'ultracore_directorypage', (
+            (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['DirectoryPage'])
+
         # Adding model 'Advert'
         db.create_table(u'ultracore_advert', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -94,6 +101,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'SpecialPage'
         db.delete_table(u'ultracore_specialpage')
+
+        # Deleting model 'DirectoryPage'
+        db.delete_table(u'ultracore_directorypage')
 
         # Deleting model 'Advert'
         db.delete_table(u'ultracore_advert')
@@ -156,6 +166,11 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'position': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'ultracore.directorypage': {
+            'Meta': {'object_name': 'DirectoryPage', '_ormbases': [u'wagtailcore.Page']},
+            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'ultracore.formfield': {
             'Meta': {'ordering': "['sort_order']", 'object_name': 'FormField'},

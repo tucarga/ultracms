@@ -1,0 +1,33 @@
+{% extends "ultracore/base.html" %}
+{% load pageurl image_tags wagtailcore_tags ultracore_tags %}
+
+{% block content %}
+
+<div class="row"><!-- container -->
+  <div class="large-3 columns">
+
+    {{ self.title }}
+
+  </div>
+
+  {% get_contacts as contacts %}
+
+  <div class="large-{% if contacts %}6{% else %}9{% endif %} columns">
+
+    {% include "ultracore/includes/body.html" with body=self.body only %}
+
+  </div>
+  
+  {% if contacts %}
+
+  <div class="large-3 columns">
+
+    {% include "ultracore/includes/contacts.html" with contacts=contacts %}
+
+  </div>
+
+  {% endif %}
+
+</div> <!-- end row -->
+
+{% endblock %}
