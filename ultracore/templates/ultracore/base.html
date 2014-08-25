@@ -89,18 +89,23 @@
         </div>
       </div><!-- menu -->
 
-      <div id="content" class="row">
+      <div class="row">
         <div id="container" class="large-12 column">
           <div id="heading">
 
             {% block heading %}
+
             {% endblock %}
 
           </div>
 
+          <div id="content">
+
           {% block content %}
 
           {% endblock %}
+
+          </div>
 
           {% comment %}
 
@@ -115,25 +120,28 @@
         </div><!-- container -->
       </div><!-- content -->
 
-      <div class="row">
-        <div class="large-10 large-offset-1 columns">
-          <hr>
-        </div>
-      </div>
+      <div id="footer-wrapper">
+	<div class="row">
+          <div class="large-10 large-offset-1 columns">
+            <hr>
+          </div>
+	</div>
 
-      <div class="row">
-        <div class="large-10 large-offset-1 columns">
-          <footer class="panel">
+	<div class="row">
+          <div class="large-10 large-offset-1 columns">
+            <footer class="panel">
 
-            {{ request.site.sitesetting.footer|richtext }}
+              {{ request.site.sitesetting.footer|richtext }}
 
-            <br class="clear">
+              <br class="clear">
 
-	    {{ request.site.sitesetting.disclaimer|richtext }}
+	      {{ request.site.sitesetting.disclaimer|richtext }}
 
-        </div>
-      </div>
-      </footer>
+	    </footer>
+          </div>
+	</div>
+
+      </div><!-- footer-wrapper -->
     </div><!-- background -->
 
     {# Base javascript #}
