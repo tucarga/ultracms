@@ -1,5 +1,5 @@
 {% extends "ultracore/base.html" %}
-{% load pageurl rich_text %}
+{% load pageurl rich_text ultracore_tags %}
 
 {% block content %}
 
@@ -11,8 +11,10 @@
     {{ self.sub_menu|richtext }}
 
   </div>
-  <div class="large-6 columns">
 
+  {% get_contacts as contacts%}
+
+  <div class="large-{% if contacts %}6{% else %}9{% endif %} columns">
 
     {{ self.intro|richtext }}
 
@@ -25,11 +27,17 @@
       <input type="submit">
     </form>
   </div>
+
+  {% if contacts %}
+
   <div class="large-3 columns">
 
-    {#% contacts %#}
+    {% include "ultracore/includes/contacts.html" with contacts=contacts %}
 
   </div>
+
+  {% endif %}
+
 </div> <!-- end row -->
 
 {% endblock %}
