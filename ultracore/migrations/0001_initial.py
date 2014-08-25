@@ -28,6 +28,7 @@ class Migration(SchemaMigration):
             ('to_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('from_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('subject', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('sub_menu', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('intro', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('thank_you_text', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
@@ -152,6 +153,7 @@ class Migration(SchemaMigration):
             'from_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'intro': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
+            'sub_menu': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'subject': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'thank_you_text': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'to_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})

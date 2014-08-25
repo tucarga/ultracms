@@ -3,17 +3,33 @@
 
 {% block content %}
 
-<h1>{{ self.title }}</h1>
+<div class="row"><!-- container -->
+  <div class="large-3 columns">
 
-{{ self.intro|richtext }}
+    <h1>{{ self.title }}</h1>
 
-<form action="{% pageurl self %}" method="POST">
+    {{ self.sub_menu|richtext }}
 
-  {% csrf_token %}
+  </div>
+  <div class="large-6 columns">
 
-  {{ form.as_p }}
 
-  <input type="submit">
-</form>
+    {{ self.intro|richtext }}
+
+    <form action="{% pageurl self %}" method="POST">
+
+      {% csrf_token %}
+
+      {{ form.as_p }}
+
+      <input type="submit">
+    </form>
+  </div>
+  <div class="large-3 columns">
+
+    {#% contacts %#}
+
+  </div>
+</div> <!-- end row -->
 
 {% endblock %}

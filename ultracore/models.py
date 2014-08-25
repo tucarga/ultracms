@@ -75,12 +75,14 @@ class FormField(AbstractFormField):
 
 
 class FormPage(AbstractEmailForm):
+    sub_menu = RichTextField(blank=True)
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
 
 
 FormPage.content_panels = [
     FieldPanel('title', classname="full title"),
+    FieldPanel('sub_menu', classname="full"),
     FieldPanel('intro', classname="full"),
     InlinePanel(FormPage, 'form_fields', label="Form fields"),
     FieldPanel('thank_you_text', classname="full"),
