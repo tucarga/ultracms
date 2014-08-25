@@ -81,3 +81,11 @@ ul.bxslider {
 #special-image {
   text-align: center;
 }
+
+#contacts {
+  max-height: 150px;
+  overflow-y: scroll;
+  ul {
+    font-size: 10px;
+  }
+}
