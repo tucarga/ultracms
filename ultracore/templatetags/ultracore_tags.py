@@ -80,6 +80,8 @@ def adverts(context):
     }
 
 
-@register.assignment_tag(takes_context=True)
-def get_contacts(context):
-    return Contact.objects.all()
+@register.assignment_tag()
+def get_contacts(page):
+    tags = page.tags.all()
+    contacts = Contact.objects.filter(tags__in=tags)
+    return contacts

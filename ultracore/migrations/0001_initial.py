@@ -22,6 +22,14 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['FormField'])
 
+        # Adding model 'FormPageTag'
+        db.create_table(u'ultracore_formpagetag', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(related_name=u'ultracore_formpagetag_items', to=orm['taggit.Tag'])),
+            ('content_object', self.gf('modelcluster.fields.ParentalKey')(related_name='tagged_items', to=orm['ultracore.FormPage'])),
+        ))
+        db.send_create_signal(u'ultracore', ['FormPageTag'])
+
         # Adding model 'FormPage'
         db.create_table(u'ultracore_formpage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
@@ -40,6 +48,14 @@ class Migration(SchemaMigration):
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
         db.send_create_signal(u'ultracore', ['StandardPage'])
+
+        # Adding model 'SpecialPageTag'
+        db.create_table(u'ultracore_specialpagetag', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(related_name=u'ultracore_specialpagetag_items', to=orm['taggit.Tag'])),
+            ('content_object', self.gf('modelcluster.fields.ParentalKey')(related_name='tagged_items', to=orm['ultracore.SpecialPage'])),
+        ))
+        db.send_create_signal(u'ultracore', ['SpecialPageTag'])
 
         # Adding model 'SpecialPage'
         db.create_table(u'ultracore_specialpage', (
@@ -76,6 +92,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Contact'])
 
+        # Adding M2M table for field tags on 'Contact'
+        m2m_table_name = db.shorten_name(u'ultracore_contact_tags')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('contact', models.ForeignKey(orm[u'ultracore.contact'], null=False)),
+            ('tag', models.ForeignKey(orm[u'taggit.tag'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['contact_id', 'tag_id'])
+
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -93,11 +118,17 @@ class Migration(SchemaMigration):
         # Deleting model 'FormField'
         db.delete_table(u'ultracore_formfield')
 
+        # Deleting model 'FormPageTag'
+        db.delete_table(u'ultracore_formpagetag')
+
         # Deleting model 'FormPage'
         db.delete_table(u'ultracore_formpage')
 
         # Deleting model 'StandardPage'
         db.delete_table(u'ultracore_standardpage')
+
+        # Deleting model 'SpecialPageTag'
+        db.delete_table(u'ultracore_specialpagetag')
 
         # Deleting model 'SpecialPage'
         db.delete_table(u'ultracore_specialpage')
@@ -110,6 +141,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Contact'
         db.delete_table(u'ultracore_contact')
+
+        # Removing M2M table for field tags on 'Contact'
+        db.delete_table(db.shorten_name(u'ultracore_contact_tags'))
 
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
@@ -152,6 +186,12 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'taggit.tag': {
+            'Meta': {'object_name': 'Tag'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
+        },
         u'ultracore.advert': {
             'Meta': {'object_name': 'Advert'},
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
@@ -165,7 +205,8 @@ class Migration(SchemaMigration):
             'full_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'position': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+            'position': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'tags': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['taggit.Tag']", 'symmetrical': 'False', 'blank': 'True'})
         },
         u'ultracore.directorypage': {
             'Meta': {'object_name': 'DirectoryPage', '_ormbases': [u'wagtailcore.Page']},
@@ -194,6 +235,12 @@ class Migration(SchemaMigration):
             'thank_you_text': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'to_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
         },
+        u'ultracore.formpagetag': {
+            'Meta': {'object_name': 'FormPageTag'},
+            'content_object': ('modelcluster.fields.ParentalKey', [], {'related_name': "'tagged_items'", 'to': u"orm['ultracore.FormPage']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'ultracore_formpagetag_items'", 'to': u"orm['taggit.Tag']"})
+        },
         u'ultracore.sitesetting': {
             'Meta': {'object_name': 'SiteSetting'},
             'background_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
@@ -210,6 +257,12 @@ class Migration(SchemaMigration):
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
             'sub_menu': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'})
+        },
+        u'ultracore.specialpagetag': {
+            'Meta': {'object_name': 'SpecialPageTag'},
+            'content_object': ('modelcluster.fields.ParentalKey', [], {'related_name': "'tagged_items'", 'to': u"orm['ultracore.SpecialPage']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'ultracore_specialpagetag_items'", 'to': u"orm['taggit.Tag']"})
         },
         u'ultracore.standardpage': {
             'Meta': {'object_name': 'StandardPage', '_ormbases': [u'wagtailcore.Page']},
