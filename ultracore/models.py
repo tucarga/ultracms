@@ -183,9 +183,8 @@ DirectoryPage.promote_panels = [
 ]
 
 
-class Advert(models.Model):
+class Advert(LinkFields):
     title = models.CharField(max_length=255)
-    body = RichTextField()
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -196,8 +195,8 @@ class Advert(models.Model):
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('body'),
         ImageChooserPanel('feed_image'),
+        MultiFieldPanel(LinkFields.panels, "Link"),
     ]
 
     def __unicode__(self):

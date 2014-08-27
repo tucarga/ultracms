@@ -76,8 +76,10 @@ class Migration(SchemaMigration):
         # Adding model 'Advert'
         db.create_table(u'ultracore_advert', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('link_external', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('link_page', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtailcore.Page'])),
+            ('link_document', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtaildocs.Document'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')()),
             ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
         ))
         db.send_create_signal(u'ultracore', ['Advert'])
@@ -194,9 +196,11 @@ class Migration(SchemaMigration):
         },
         u'ultracore.advert': {
             'Meta': {'object_name': 'Advert'},
-            'body': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'link_document': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtaildocs.Document']"}),
+            'link_external': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'ultracore.contact': {
@@ -296,6 +300,14 @@ class Migration(SchemaMigration):
             'is_default_site': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'port': ('django.db.models.fields.IntegerField', [], {'default': '80'}),
             'root_page': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sites_rooted_here'", 'to': u"orm['wagtailcore.Page']"})
+        },
+        u'wagtaildocs.document': {
+            'Meta': {'object_name': 'Document'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'uploaded_by_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'})
         },
         u'wagtailimages.image': {
             'Meta': {'object_name': 'Image'},
