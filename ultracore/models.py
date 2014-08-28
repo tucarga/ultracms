@@ -140,6 +140,7 @@ class SpecialPage(wagtail_models.Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    side_title = RichTextField(blank=True)
     sub_menu = RichTextField(blank=True)
     body = RichTextField(blank=True)
 
@@ -153,6 +154,7 @@ class SpecialPage(wagtail_models.Page):
 SpecialPage.content_panels = [
     ImageChooserPanel('feed_image'),
     FieldPanel('title', classname="full title"),
+    FieldPanel('side_title', classname="full"),
     FieldPanel('sub_menu', classname="full"),
     FieldPanel('body', classname="full"),
 ]
