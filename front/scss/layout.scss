@@ -85,3 +85,12 @@ ul.bxslider {
     font-size: 10px;
   }
 }
+
+// remove default link colors
+a {
+    color: inherit;
+}
+a:hover 
+{
+     color: inherit; 
+}
