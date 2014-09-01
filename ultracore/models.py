@@ -76,6 +76,31 @@ class HomePageCarouselItem(wagtail_models.Orderable, CarouselItem):
                        related_name='carousel_items')
 
 
+class Service(LinkFields):
+    title = models.CharField(max_length=255)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('title'),
+        ImageChooserPanel('feed_image'),
+        MultiFieldPanel(LinkFields.panels, "Link"),
+    ]
+
+    def __unicode__(self):
+        return self.title
+
+
+class HomePageService(wagtail_models.Orderable, Service):
+    page = ParentalKey('ultracore.HomePage',
+                       related_name='services')
+
+
 class HomePage(wagtail_models.Page):
 
     class Meta:
@@ -85,6 +110,8 @@ HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
     InlinePanel(
         HomePage, 'carousel_items', label="Carousel items"),
+    InlinePanel(
+        HomePage, 'services', label="Services"),
 ]
 
 HomePage.promote_panels = [
@@ -210,28 +237,6 @@ DirectoryPage.promote_panels = [
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('hide_link_in_menu'),
 ]
-
-
-class Advert(LinkFields):
-    title = models.CharField(max_length=255)
-    feed_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    panels = [
-        FieldPanel('title'),
-        ImageChooserPanel('feed_image'),
-        MultiFieldPanel(LinkFields.panels, "Link"),
-    ]
-
-    def __unicode__(self):
-        return self.title
-
-register_snippet(Advert)
 
 
 class Contact(models.Model):

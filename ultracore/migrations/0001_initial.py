@@ -22,6 +22,25 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['HomePageCarouselItem'])
 
+        # Adding model 'Service'
+        db.create_table(u'ultracore_service', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('link_external', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('link_page', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtailcore.Page'])),
+            ('link_document', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtaildocs.Document'])),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
+        ))
+        db.send_create_signal(u'ultracore', ['Service'])
+
+        # Adding model 'HomePageService'
+        db.create_table(u'ultracore_homepageservice', (
+            (u'service_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['ultracore.Service'], unique=True, primary_key=True)),
+            ('sort_order', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('page', self.gf('modelcluster.fields.ParentalKey')(related_name='services', to=orm['ultracore.HomePage'])),
+        ))
+        db.send_create_signal(u'ultracore', ['HomePageService'])
+
         # Adding model 'HomePage'
         db.create_table(u'ultracore_homepage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
@@ -95,17 +114,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['DirectoryPage'])
 
-        # Adding model 'Advert'
-        db.create_table(u'ultracore_advert', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('link_external', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('link_page', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtailcore.Page'])),
-            ('link_document', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtaildocs.Document'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
-        ))
-        db.send_create_signal(u'ultracore', ['Advert'])
-
         # Adding model 'Contact'
         db.create_table(u'ultracore_contact', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -142,6 +150,12 @@ class Migration(SchemaMigration):
         # Deleting model 'HomePageCarouselItem'
         db.delete_table(u'ultracore_homepagecarouselitem')
 
+        # Deleting model 'Service'
+        db.delete_table(u'ultracore_service')
+
+        # Deleting model 'HomePageService'
+        db.delete_table(u'ultracore_homepageservice')
+
         # Deleting model 'HomePage'
         db.delete_table(u'ultracore_homepage')
 
@@ -165,9 +179,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'DirectoryPage'
         db.delete_table(u'ultracore_directorypage')
-
-        # Deleting model 'Advert'
-        db.delete_table(u'ultracore_advert')
 
         # Deleting model 'Contact'
         db.delete_table(u'ultracore_contact')
@@ -221,15 +232,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
-        },
-        u'ultracore.advert': {
-            'Meta': {'object_name': 'Advert'},
-            'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'link_document': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtaildocs.Document']"}),
-            'link_external': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
-            'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'ultracore.contact': {
             'Meta': {'object_name': 'Contact'},
@@ -288,6 +290,21 @@ class Migration(SchemaMigration):
             'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
             'page': ('modelcluster.fields.ParentalKey', [], {'related_name': "'carousel_items'", 'to': u"orm['ultracore.HomePage']"}),
             'sort_order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'ultracore.homepageservice': {
+            'Meta': {'ordering': "['sort_order']", 'object_name': 'HomePageService', '_ormbases': [u'ultracore.Service']},
+            'page': ('modelcluster.fields.ParentalKey', [], {'related_name': "'services'", 'to': u"orm['ultracore.HomePage']"}),
+            u'service_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['ultracore.Service']", 'unique': 'True', 'primary_key': 'True'}),
+            'sort_order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'ultracore.service': {
+            'Meta': {'object_name': 'Service'},
+            'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'link_document': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtaildocs.Document']"}),
+            'link_external': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'ultracore.sitesetting': {
             'Meta': {'object_name': 'SiteSetting'},

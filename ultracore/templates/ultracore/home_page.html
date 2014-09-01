@@ -1,24 +1,40 @@
 {% extends "ultracore/base.html" %}
-{% load ultracore_tags static %}
+{% load ultracore_tags static rich_text image_tags %}
 
 {% block content %}
 
 <div class="row">
-  <div id="wrong" class="large-10 large-offset-1 columns">
+  <div class="wrong" class="large-10 large-offset-1 columns">
 
     {% include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
 
   </div>
-</div>
 
-<!-- Loop de servicios -->
-<div id="site-section" class="row">
+  <div class="large-10 large-offset-1 columns">
 
-  {% block adverts %}
+    <ul class="bxslider-services">
 
-  {% adverts %}
+      {% for service in self.services.all %}
 
-  {% endblock %}
+      <li>
+
+        {% with service.link as link %}
+
+        {% if link %}<a href="{{ link }}">{% endif %}
+
+          {% image service.feed_image width-180 class="algo" %}
+
+          {% if link %}</a>{% endif %}
+
+        {% endwith %}
+
+      </li>
+
+      {% endfor %}
+
+    </ul>
+
+  </div>
 
 </div>
 

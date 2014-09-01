@@ -11,7 +11,7 @@ $(document).ready(function() {
 	auto: true,
 	slideWidth: 780,
     });
-    $('.bxslider-adverts').bxSlider({
+    $('.bxslider-services').bxSlider({
         captions: true,
 	pager: false,
 	controls: true,
