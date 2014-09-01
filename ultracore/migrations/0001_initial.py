@@ -36,7 +36,6 @@ class Migration(SchemaMigration):
             ('to_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('from_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('subject', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('sub_menu', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('intro', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('thank_you_text', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
@@ -62,7 +61,6 @@ class Migration(SchemaMigration):
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
             ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
             ('side_title', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
-            ('sub_menu', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
         db.send_create_signal(u'ultracore', ['SpecialPage'])
@@ -235,7 +233,6 @@ class Migration(SchemaMigration):
             'from_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'intro': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
-            'sub_menu': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'subject': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'thank_you_text': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'to_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
@@ -261,8 +258,7 @@ class Migration(SchemaMigration):
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
-            'side_title': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
-            'sub_menu': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'})
+            'side_title': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'})
         },
         u'ultracore.specialpagetag': {
             'Meta': {'object_name': 'SpecialPageTag'},

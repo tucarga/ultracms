@@ -19,7 +19,8 @@
   <div class="large-3 columns">
 
     {{ self.side_title|richtext }}
-    {{ self.sub_menu|richtext }}
+
+    {% secondary_menu calling_page=self %}
 
   </div>
 

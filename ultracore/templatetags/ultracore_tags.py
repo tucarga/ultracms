@@ -54,17 +54,10 @@ def top_menu_children(context, parent):
 def secondary_menu(context, calling_page=None):
     pages = []
     if calling_page:
-        pages = calling_page.get_children().filter(
+        pages = calling_page.get_other_siblings().filter(
             live=True,
             show_in_menus=True
         )
-
-        # If no children, get siblings instead
-        if len(pages) == 0:
-            pages = calling_page.get_other_siblings().filter(
-                live=True,
-                show_in_menus=True
-            )
     return {
         'pages': pages,
         # required by the pageurl tag that we want to use within this template

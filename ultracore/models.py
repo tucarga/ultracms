@@ -81,7 +81,6 @@ class FormPageTag(TaggedItemBase):
 
 
 class FormPage(AbstractEmailForm):
-    sub_menu = RichTextField(blank=True)
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
 
@@ -90,7 +89,6 @@ class FormPage(AbstractEmailForm):
 
 FormPage.content_panels = [
     FieldPanel('title', classname="full title"),
-    FieldPanel('sub_menu', classname="full"),
     FieldPanel('intro', classname="full"),
     InlinePanel(FormPage, 'form_fields', label="Form fields"),
     FieldPanel('thank_you_text', classname="full"),
@@ -141,7 +139,6 @@ class SpecialPage(wagtail_models.Page):
         related_name='+'
     )
     side_title = RichTextField(blank=True)
-    sub_menu = RichTextField(blank=True)
     body = RichTextField(blank=True)
 
     tags = ClusterTaggableManager(through=SpecialPageTag, blank=True)
@@ -155,7 +152,6 @@ SpecialPage.content_panels = [
     ImageChooserPanel('feed_image'),
     FieldPanel('title', classname="full title"),
     FieldPanel('side_title', classname="full"),
-    FieldPanel('sub_menu', classname="full"),
     FieldPanel('body', classname="full"),
 ]
 
