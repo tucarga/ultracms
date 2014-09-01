@@ -78,8 +78,7 @@
 
       {% endcomment %}
 
-      <div id="menu" class="row">
-        <div class="large-12 columns">
+      <div id="menu">
 
           {% block menu %}
 
@@ -88,7 +87,6 @@
 
           {% endblock %}
 
-        </div>
       </div><!-- menu -->
 
       <div class="row">
@@ -123,26 +121,16 @@
       </div><!-- content -->
 
       <div id="footer-wrapper">
-	<div class="row">
-          <div class="large-12 columns">
-            <hr>
-          </div>
-	</div>
+        <hr>
+        <footer class="panel">
 
-	<div class="row">
-          <div class="large-12 columns">
-            <footer class="panel">
+          {{ request.site.sitesetting.footer|richtext }}
 
-              {{ request.site.sitesetting.footer|richtext }}
+          <br class="clear">
 
-              <br class="clear">
+	  {{ request.site.sitesetting.disclaimer|richtext }}
 
-	      {{ request.site.sitesetting.disclaimer|richtext }}
-
-	    </footer>
-          </div>
-	</div>
-
+	</footer>
       </div><!-- footer-wrapper -->
     </div><!-- background -->
 
