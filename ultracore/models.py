@@ -71,6 +71,28 @@ class CarouselItem(LinkFields):
         abstract = True
 
 
+class HomePageCarouselItem(wagtail_models.Orderable, CarouselItem):
+    page = ParentalKey('ultracore.HomePage',
+                       related_name='carousel_items')
+
+
+class HomePage(wagtail_models.Page):
+
+    class Meta:
+        verbose_name = "Homepage"
+
+HomePage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    InlinePanel(
+        HomePage, 'carousel_items', label="Carousel items"),
+]
+
+HomePage.promote_panels = [
+    MultiFieldPanel(
+        wagtail_models.Page.promote_panels, "Common page configuration"),
+]
+
+
 class FormField(AbstractFormField):
     page = ParentalKey('FormPage', related_name='form_fields')
 
@@ -111,6 +133,8 @@ class StandardPage(wagtail_models.Page):
 
     indexed_fields = ('body', )
 
+    hide_link_in_menu = models.BooleanField()
+
     class Meta:
         verbose_name = "StandardPage"
 
@@ -122,6 +146,7 @@ StandardPage.content_panels = [
 StandardPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
+    FieldPanel('hide_link_in_menu'),
 ]
 
 
@@ -143,6 +168,8 @@ class SpecialPage(wagtail_models.Page):
 
     tags = ClusterTaggableManager(through=SpecialPageTag, blank=True)
 
+    hide_link_in_menu = models.BooleanField()
+
     indexed_fields = ('body', )
 
     class Meta:
@@ -159,6 +186,7 @@ SpecialPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('tags'),
+    FieldPanel('hide_link_in_menu'),
 ]
 
 
@@ -166,6 +194,8 @@ class DirectoryPage(wagtail_models.Page):
     body = RichTextField(blank=True)
 
     indexed_fields = ('body', )
+
+    hide_link_in_menu = models.BooleanField()
 
     class Meta:
         verbose_name = "DirectoryPage"
@@ -178,6 +208,7 @@ DirectoryPage.content_panels = [
 DirectoryPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
+    FieldPanel('hide_link_in_menu'),
 ]
 
 

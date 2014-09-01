@@ -27,7 +27,15 @@
 
         {% if menuitem.show_dropdown %}
 
-        <a href="#">{{ menuitem.title }}</a>
+	  {% if menuitem.specific.hide_link_in_menu %}
+
+          <a >{{ menuitem.title }}</a>
+
+          {% else %}
+
+          <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+
+          {% endif %}
 
         {% top_menu_children parent=menuitem %}
 

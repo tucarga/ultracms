@@ -8,6 +8,26 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'HomePageCarouselItem'
+        db.create_table(u'ultracore_homepagecarouselitem', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('sort_order', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('link_external', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('link_page', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtailcore.Page'])),
+            ('link_document', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtaildocs.Document'])),
+            ('image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
+            ('embed_url', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('caption', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('page', self.gf('modelcluster.fields.ParentalKey')(related_name='carousel_items', to=orm['ultracore.HomePage'])),
+        ))
+        db.send_create_signal(u'ultracore', ['HomePageCarouselItem'])
+
+        # Adding model 'HomePage'
+        db.create_table(u'ultracore_homepage', (
+            (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['HomePage'])
+
         # Adding model 'FormField'
         db.create_table(u'ultracore_formfield', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -45,6 +65,7 @@ class Migration(SchemaMigration):
         db.create_table(u'ultracore_standardpage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+            ('hide_link_in_menu', self.gf('django.db.models.fields.BooleanField')()),
         ))
         db.send_create_signal(u'ultracore', ['StandardPage'])
 
@@ -62,6 +83,7 @@ class Migration(SchemaMigration):
             ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
             ('side_title', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+            ('hide_link_in_menu', self.gf('django.db.models.fields.BooleanField')()),
         ))
         db.send_create_signal(u'ultracore', ['SpecialPage'])
 
@@ -69,6 +91,7 @@ class Migration(SchemaMigration):
         db.create_table(u'ultracore_directorypage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+            ('hide_link_in_menu', self.gf('django.db.models.fields.BooleanField')()),
         ))
         db.send_create_signal(u'ultracore', ['DirectoryPage'])
 
@@ -116,6 +139,12 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'HomePageCarouselItem'
+        db.delete_table(u'ultracore_homepagecarouselitem')
+
+        # Deleting model 'HomePage'
+        db.delete_table(u'ultracore_homepage')
+
         # Deleting model 'FormField'
         db.delete_table(u'ultracore_formfield')
 
@@ -214,6 +243,7 @@ class Migration(SchemaMigration):
         u'ultracore.directorypage': {
             'Meta': {'object_name': 'DirectoryPage', '_ormbases': [u'wagtailcore.Page']},
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'ultracore.formfield': {
@@ -243,6 +273,22 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'ultracore_formpagetag_items'", 'to': u"orm['taggit.Tag']"})
         },
+        u'ultracore.homepage': {
+            'Meta': {'object_name': 'HomePage', '_ormbases': [u'wagtailcore.Page']},
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'ultracore.homepagecarouselitem': {
+            'Meta': {'ordering': "['sort_order']", 'object_name': 'HomePageCarouselItem'},
+            'caption': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'embed_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            'link_document': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtaildocs.Document']"}),
+            'link_external': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
+            'page': ('modelcluster.fields.ParentalKey', [], {'related_name': "'carousel_items'", 'to': u"orm['ultracore.HomePage']"}),
+            'sort_order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
         u'ultracore.sitesetting': {
             'Meta': {'object_name': 'SiteSetting'},
             'background_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
@@ -257,6 +303,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'SpecialPage', '_ormbases': [u'wagtailcore.Page']},
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
             'side_title': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'})
         },
@@ -269,6 +316,7 @@ class Migration(SchemaMigration):
         u'ultracore.standardpage': {
             'Meta': {'object_name': 'StandardPage', '_ormbases': [u'wagtailcore.Page']},
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'wagtailcore.page': {
