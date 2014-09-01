@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'wagtail.wagtailforms',
 
     # Local apps
-    'wagtailblog',
     'wagtailsettings',
 
     # project utils
