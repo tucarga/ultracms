@@ -292,14 +292,12 @@ class SiteSetting(BaseSetting):
         related_name='+'
     )
     footer = RichTextField()
-    disclaimer = RichTextField()
 
     panels = [
         FieldPanel('title'),
         ImageChooserPanel('site_logo'),
         ImageChooserPanel('background_image'),
         FieldPanel('footer'),
-        FieldPanel('disclaimer'),
     ]
 
 
