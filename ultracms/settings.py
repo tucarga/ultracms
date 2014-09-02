@@ -15,7 +15,7 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -134,5 +134,6 @@ MEDIA_URL = '/media/'
 
 if DEBUG:
     # debug toolbar
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
     INSTALLED_APPS += ('debug_toolbar', )
     INSTALLED_APPS += ('template_debug', )
