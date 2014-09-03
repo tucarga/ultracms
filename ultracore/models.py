@@ -245,6 +245,9 @@ class Contact(models.Model):
     phone = models.CharField(max_length=20)
     email = models.EmailField()
 
+    area = models.ForeignKey('Area')
+    agency = models.ForeignKey('Agency')
+
     tags = models.ManyToManyField('taggit.Tag', blank=True)
 
     panels = [
@@ -252,6 +255,9 @@ class Contact(models.Model):
         FieldPanel('position'),
         FieldPanel('phone'),
         FieldPanel('email'),
+        FieldPanel('area'),
+        FieldPanel('agency'),
+
         FieldPanel('tags'),
     ]
 
@@ -262,6 +268,40 @@ class Contact(models.Model):
         return self.full_name
 
 register_snippet(Contact)
+
+
+class Area(models.Model):
+    name = models.CharField(max_length=100)
+    content = RichTextField(blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('content', classname="full"),
+    ]
+
+    def __unicode__(self):
+        return self.name
+
+register_snippet(Area)
+
+
+class Agency(models.Model):
+    name = models.CharField(max_length=100)
+    content = RichTextField(blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('content', classname="full"),
+    ]
+
+    class Meta:
+        verbose_name = "Agencies"
+
+    def __unicode__(self):
+        return self.name
+
+register_snippet(Agency)
+
 
 from taggit.models import Tag
 

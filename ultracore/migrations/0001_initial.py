@@ -121,6 +121,8 @@ class Migration(SchemaMigration):
             ('position', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('area', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Area'])),
+            ('agency', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Agency'])),
         ))
         db.send_create_signal(u'ultracore', ['Contact'])
 
@@ -132,6 +134,22 @@ class Migration(SchemaMigration):
             ('tag', models.ForeignKey(orm[u'taggit.tag'], null=False))
         ))
         db.create_unique(m2m_table_name, ['contact_id', 'tag_id'])
+
+        # Adding model 'Area'
+        db.create_table(u'ultracore_area', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('content', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['Area'])
+
+        # Adding model 'Agency'
+        db.create_table(u'ultracore_agency', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('content', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+        ))
+        db.send_create_signal(u'ultracore', ['Agency'])
 
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
@@ -185,6 +203,12 @@ class Migration(SchemaMigration):
         # Removing M2M table for field tags on 'Contact'
         db.delete_table(db.shorten_name(u'ultracore_contact_tags'))
 
+        # Deleting model 'Area'
+        db.delete_table(u'ultracore_area')
+
+        # Deleting model 'Agency'
+        db.delete_table(u'ultracore_agency')
+
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
 
@@ -232,8 +256,22 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
         },
+        u'ultracore.agency': {
+            'Meta': {'object_name': 'Agency'},
+            'content': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'ultracore.area': {
+            'Meta': {'object_name': 'Area'},
+            'content': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         u'ultracore.contact': {
             'Meta': {'object_name': 'Contact'},
+            'agency': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Agency']"}),
+            'area': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Area']"}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'full_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
