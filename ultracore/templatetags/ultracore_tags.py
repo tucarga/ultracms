@@ -1,6 +1,6 @@
 from django import template
 
-from ultracore.models import Service, Contact
+from ultracore.models import Agency, Area, Service, Contact
 
 register = template.Library()
 
@@ -74,9 +74,32 @@ def services(context):
 
 
 @register.assignment_tag()
-def get_contacts(page=None):
+def get_contacts(page=None, area=None, agency=None):
     contacts = Contact.objects.all()
     if page is not None:
         tags = page.tags.all()
         contacts = contacts.filter(tags__in=tags)
+    if area is not None:
+        contacts = contacts.filter(area=area)
+    if agency is not None:
+        contacts = contacts.filter(agency=agency)
+
     return contacts
+
+
+@register.assignment_tag(takes_context=True)
+def get_agencies(context, filter=False):
+    agencies = Agency.objects.all()
+    agency = filter and context['request'].GET.get('agency')
+    if agency:
+        agencies = agencies.filter(name=agency)
+    return agencies
+
+
+@register.assignment_tag(takes_context=True)
+def get_areas(context, filter=False):
+    areas = Area.objects.all()
+    area = filter and context['request'].GET.get('area')
+    if area:
+        areas = areas.filter(name=area)
+    return areas

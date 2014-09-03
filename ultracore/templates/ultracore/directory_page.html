@@ -1,23 +1,73 @@
 {% extends "ultracore/base.html" %}
-{% load pageurl image_tags wagtailcore_tags ultracore_tags %}
+{% load pageurl image_tags wagtailcore_tags ultracore_tags static %}
 
 {% block content %}
 
 <div class="row">
-  <div class="large-12 columns">
+  <div class="large-6 columns">{{ self.title }}</div>
+  <hr>
+  <form method="GET" action=".">
+    <div class="row">
+      <div class="large-2 large-offset-6 columns">
+        <select name="area">
 
-    {{ self.title }}
+        {% get_areas as areas %}
 
-    <hr>
+          <option value="">Todas</option>
 
-    {% get_contacts as contacts %}
+          {% for area in areas %}
 
-    {% include "ultracore/includes/body.html" with body=self.body only %}
+          <option value="{{ area.name }}">{{ area.name }}</option>
 
-    {% include "ultracore/includes/contacts_directory.html" with contacts=contacts %}
+          {% endfor %}
 
-  </div>
+        </select>
+      </div>
+      <div class="large-2 columns">
+        <select name="agency">
 
-</div> <!-- end row -->
+        {% get_agencies as agencies %}
+
+          <option value="">Todas</option>
+
+          {% for agency in agencies %}
+
+          <option value="{{ agency.name }}">{{ agency.name }}</option>
+
+          {% endfor %}
+
+        </select>
+      </div>
+      <div class="large-2 columns">
+        <input type="submit" value="Filtrar" />
+      </div>
+    </div>
+  </form>
+</div>
+
+{#% include "ultracore/includes/body.html" with body=self.body only %#}
+
+{% get_agencies filter=True as agencies %}
+
+{% get_areas filter=True as areas %}
+
+{% for agency in agencies %}
+
+<h1>{{ agency.name }}</h1>
+<div class="areas">
+
+  {% for area in areas %}
+
+  <h3>{{ area.name }}</h3>
+
+  {% get_contacts area=area agency=agency as contacts%}
+
+  {% include "ultracore/includes/contacts_directory.html" with contacts=contacts %}
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
 
 {% endblock %}
