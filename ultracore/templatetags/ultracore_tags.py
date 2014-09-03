@@ -74,7 +74,9 @@ def services(context):
 
 
 @register.assignment_tag()
-def get_contacts(page):
-    tags = page.tags.all()
-    contacts = Contact.objects.filter(tags__in=tags)
+def get_contacts(page=None):
+    contacts = Contact.objects.all()
+    if page is not None:
+        tags = page.tags.all()
+        contacts = contacts.filter(tags__in=tags)
     return contacts
