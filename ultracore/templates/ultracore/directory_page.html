@@ -3,30 +3,20 @@
 
 {% block content %}
 
-<div class="row"><!-- container -->
-  <div class="large-3 columns">
+<div class="row">
+  <div class="large-12 columns">
 
     {{ self.title }}
 
-  </div>
+    <hr>
 
-  {% get_contacts as contacts %}
-
-  <div class="large-{% if contacts %}6{% else %}9{% endif %} columns">
+    {% get_contacts as contacts %}
 
     {% include "ultracore/includes/body.html" with body=self.body only %}
 
-  </div>
-  
-  {% if contacts %}
-
-  <div class="large-3 columns">
-
-    {% include "ultracore/includes/contacts.html" with contacts=contacts %}
+    {% include "ultracore/includes/contacts_directory.html" with contacts=contacts %}
 
   </div>
-
-  {% endif %}
 
 </div> <!-- end row -->
 

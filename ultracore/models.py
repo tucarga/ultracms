@@ -261,8 +261,8 @@ class Contact(models.Model):
         FieldPanel('tags'),
     ]
 
-#     def save(self, *args, **kwargs):
-#         import pdb; pdb.set_trace()
+    class Meta:
+        ordering = ('full_name', )
 
     def __unicode__(self):
         return self.full_name
