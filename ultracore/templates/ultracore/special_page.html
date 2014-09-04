@@ -45,3 +45,16 @@
 </div> <!-- end row -->
 
 {% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+  $('.sub-menu').hide();
+  $('.sub-menu.active').show();
+  $('.menu > .menu-item:has(ul) > a').click(function(event) {
+    event.preventDefault();
+    $(this).siblings('ul').toggle();
+  });
+});
+</script>
+{% endblock %}

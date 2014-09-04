@@ -60,12 +60,24 @@ def top_menu_children(context, parent):
 def secondary_menu(context, calling_page=None):
     pages = []
     if calling_page:
-        pages = calling_page.get_other_siblings().filter(
+        root = context['request'].site.root_page
+        parent = calling_page.get_parent()
+        page = calling_page
+        if parent == root:
+            getter = page.get_siblings
+        else:
+            while parent != root:
+                page = parent
+                parent = page.get_parent()
+            getter = page.get_children
+        pages = getter().filter(
             live=True,
             show_in_menus=True
         )
     return {
         'pages': pages,
+        # used to get active parent page
+        'calling_page': calling_page.page_ptr,
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }

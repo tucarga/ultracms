@@ -2,26 +2,41 @@
 
 {% if pages %}
 
-<div class="page-header"></div>
-<div class="row">
-  <div class="col-sm-4">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"></h3>
-      </div>
-      <div class="panel-body">
-        <ul>
+<ul class="menu">
 
-          {% for page in pages %}
+  {% for page in pages %}
 
-          <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+  {% with page.get_children as childrens %}
 
-          {% endfor %}
+  <li class="menu-item">
 
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+    {% if childrens %}
+
+    <a href="#">{{ page.title }}</a>
+      <ul class="sub-menu{% if page == calling_page or page == calling_page.get_parent %} active{% endif %}">
+
+      {% for children in childrens %}
+
+        <li>
+          <a href="{% pageurl children %}">{{ children.title }}</a>
+        </li>
+
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+
+      <a href="{% pageurl page %}">{{ page.title }}</a>
+
+    {% endif %}
+
+  </li>
+
+  {% endwith %}
+
+  {% endfor %}
+
+</ul>
 
 {% endif %}
