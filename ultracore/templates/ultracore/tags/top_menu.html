@@ -8,34 +8,32 @@
     <li class="name">
       <h1>
         {# Link to home page #}
-	<a href="{% pageurl site_root %}">
-	  {% image request.site.sitesetting.site_logo max-200x40 class="navbar-brand" %}
-	</a>
-
+        <a href="{% pageurl site_root %}">
+          {% image request.site.sitesetting.site_logo max-200x40 class="navbar-brand" %}
+        </a>
       </h1>
     </li>
     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
-
   <section class="top-bar-section">
     <ul class="right">
 
-      {% for menuitem in menuitems %}
+    {% for menuitem in menuitems %}
 
       <li class="{% if menuitem.show_dropdown %}has-dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
 
-        {% if menuitem.show_dropdown %}
+      {% if menuitem.show_dropdown %}
 
-	  {% if menuitem.specific.hide_link_in_menu %}
+        {% if menuitem.specific.hide_link_in_menu %}
 
-          <a >{{ menuitem.title }}</a>
+        <a >{{ menuitem.title }}</a>
 
-          {% else %}
+        {% else %}
 
-          <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+        <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
 
-          {% endif %}
+        {% endif %}
 
         {% top_menu_children parent=menuitem %}
 
@@ -47,9 +45,18 @@
 
       </li>
 
-      {% endfor %}
+    {% endfor %}
+
+    {% get_menuitems as extra_menuitems %}
+
+    {% for menuitem in extra_menuitems %}
+
+      <li>
+        <a href="{{ menuitem.link }}">{{ menuitem.name }}</a>
+      </li>
+
+    {% endfor %}
 
     </ul>
   </section>
 </nav>
-

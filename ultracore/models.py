@@ -303,6 +303,21 @@ class Agency(models.Model):
 register_snippet(Agency)
 
 
+class MenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    link = models.URLField()
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('link', classname="full"),
+    ]
+
+    def __unicode__(self):
+        return self.name
+
+register_snippet(MenuItem)
+
+
 from taggit.models import Tag
 
 Tag.panels = [

@@ -1,6 +1,6 @@
 from django import template
 
-from ultracore.models import Agency, Area, Service, Contact
+from ultracore.models import Agency, Area, Service, Contact, MenuItem
 
 register = template.Library()
 
@@ -33,6 +33,12 @@ def top_menu(context, parent, calling_page=None):
         # required by the pageurl tag that we want to use within this template
         'request': context['request'],
     }
+
+
+@register.assignment_tag()
+def get_menuitems():
+    menuitems = MenuItem.objects.all()
+    return menuitems
 
 
 @register.inclusion_tag('ultracore/tags/top_menu_children.html', takes_context=True)

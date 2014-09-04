@@ -151,6 +151,14 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Agency'])
 
+        # Adding model 'MenuItem'
+        db.create_table(u'ultracore_menuitem', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('link', self.gf('django.db.models.fields.URLField')(max_length=200)),
+        ))
+        db.send_create_signal(u'ultracore', ['MenuItem'])
+
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -208,6 +216,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Agency'
         db.delete_table(u'ultracore_agency')
+
+        # Deleting model 'MenuItem'
+        db.delete_table(u'ultracore_menuitem')
 
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
@@ -269,7 +280,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'ultracore.contact': {
-            'Meta': {'object_name': 'Contact'},
+            'Meta': {'ordering': "('full_name',)", 'object_name': 'Contact'},
             'agency': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Agency']"}),
             'area': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Area']"}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
@@ -333,6 +344,12 @@ class Migration(SchemaMigration):
             'page': ('modelcluster.fields.ParentalKey', [], {'related_name': "'services'", 'to': u"orm['ultracore.HomePage']"}),
             u'service_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['ultracore.Service']", 'unique': 'True', 'primary_key': 'True'}),
             'sort_order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'ultracore.menuitem': {
+            'Meta': {'object_name': 'MenuItem'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'link': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'ultracore.service': {
             'Meta': {'object_name': 'Service'},
