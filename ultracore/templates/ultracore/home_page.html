@@ -9,10 +9,8 @@
     {% include "ultracore/includes/carousel.html" with carousel_items=self.carousel_items.all only %}
 
   </div>
-
   <div class="large-10 large-offset-1 columns">
-
-    <ul class="bxslider-services">
+    <ul class="bxslider-services hide-for-small">
 
       {% for service in self.services.all %}
 
@@ -33,9 +31,28 @@
       {% endfor %}
 
     </ul>
+    <ul class="hide-for-medium-up">
 
+      {% for service in self.services.all %}
+
+      <li>
+
+        {% with service.link as link %}
+
+        {% if link %}<a href="{{ link }}">{% endif %}
+
+          {% image service.feed_image width-180 class="algo" %}
+
+          {% if link %}</a>{% endif %}
+
+        {% endwith %}
+
+      </li>
+
+      {% endfor %}
+
+    </ul>
   </div>
-
 </div>
 
 {% endblock %}
