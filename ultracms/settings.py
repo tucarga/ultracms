@@ -137,3 +137,6 @@ if DEBUG:
     DEBUG_TOOLBAR_PATCH_SETTINGS = False
     INSTALLED_APPS += ('debug_toolbar', )
     INSTALLED_APPS += ('template_debug', )
+    INTERNAL_IPS = ('127.0.0.1', )
+    TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
+        'django.core.context_processors.debug', )

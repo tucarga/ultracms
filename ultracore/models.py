@@ -364,6 +364,7 @@ class SiteSetting(BaseSetting):
         FieldPanel('secondary_menu_font_color_hover'),
         FieldPanel('contacts_menu_font_size'),
         FieldPanel('contacts_menu_font_color'),
+        FieldPanel('google_analytics_code'),
     ]
 
     # secondary menu settings
@@ -374,6 +375,9 @@ class SiteSetting(BaseSetting):
     # contact settings
     contacts_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
     contacts_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+
+    # google analytics
+    google_analytics_code = models.CharField(max_length=13)
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.

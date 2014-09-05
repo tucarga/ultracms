@@ -52,9 +52,12 @@
 
     {# Javascript that needs to be called from head e.g. google analytics snippet and bootstrap shivs #}
     <script src="{% static "js/modernizr.js" %}"></script>
+
+    {% if not debug and request.site.sitesetting.google_analytics_code %}
+
     <script type="text/javascript">
       var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-xxxxxxx-x']);
+      _gaq.push(['_setAccount', '{{ request.site.sitesetting.google_analytics_code }}']);
       _gaq.push(['_trackPageview']);
 
       (function() {
@@ -63,6 +66,9 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
+
+    {% endif %}
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
