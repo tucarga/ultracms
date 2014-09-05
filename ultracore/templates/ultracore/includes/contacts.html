@@ -1,29 +1,22 @@
 {% load rich_text image_tags %}
 
 <div id="contacts">
+<ul class="fa-ul">
 
-  <ul class="fa-ul">
+  {% for contact in contacts %}
 
-    {% for contact in contacts %}
+  <li ><i class="fa-li fa fa-credit-card"></i>
+    <ul class="fa-ul">
+      <li><i class="fa-li fa fa-minus"></i>{{ contact.full_name }}</li>
+      <li><i class="fa-li fa fa-minus"></i>{{ contact.position }}</li>
+      <li><i class="fa-li fa fa-phone"></i>{{ contact.phone }}</li>
+      <li><i class="fa-li fa fa-envelope-o"></i>{{ contact.email }}</li>
+    </ul>
+  </li>
 
-    <li ><i class="fa-li fa fa-credit-card"></i>
+  {% if not forloop.last %}<hr>{% endif %}
 
-      <ul class="fa-ul">
+  {% endfor %}
 
-	<li><i class="fa-li fa fa-minus"></i>{{ contact.full_name }}</li>
-
-	<li><i class="fa-li fa fa-minus"></i>{{ contact.position }}</li>
-
-	<li><i class="fa-li fa fa-phone"></i>{{ contact.phone }}</li>
-
-	<li><i class="fa-li fa fa-envelope-o"></i>{{ contact.email }}</li>
-
-      </ul>
-      
-    </li>
-
-    {% endfor %}
-
-  </ul>
-
+</ul>
 </div>

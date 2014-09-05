@@ -170,6 +170,8 @@ class Migration(SchemaMigration):
             ('secondary_menu_font_size', self.gf('django.db.models.fields.IntegerField')(default=10)),
             ('secondary_menu_font_color', self.gf('django.db.models.fields.CharField')(default='000000', max_length=6)),
             ('secondary_menu_font_color_hover', self.gf('django.db.models.fields.CharField')(default='000000', max_length=6)),
+            ('contacts_menu_font_size', self.gf('django.db.models.fields.IntegerField')(default=10)),
+            ('contacts_menu_font_color', self.gf('django.db.models.fields.CharField')(default='000000', max_length=6)),
         ))
         db.send_create_signal(u'ultracore', ['SiteSetting'])
 
@@ -366,6 +368,8 @@ class Migration(SchemaMigration):
         u'ultracore.sitesetting': {
             'Meta': {'object_name': 'SiteSetting'},
             'background_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
+            'contacts_menu_font_color': ('django.db.models.fields.CharField', [], {'default': "'000000'", 'max_length': '6'}),
+            'contacts_menu_font_size': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
             'footer': ('wagtail.wagtailcore.fields.RichTextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'secondary_menu_font_color': ('django.db.models.fields.CharField', [], {'default': "'000000'", 'max_length': '6'}),

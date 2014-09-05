@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" />
 
     <style>
+    /* secondary menu */
     #secondary_menu ul, ul {
       list-style-type: none;
     }
@@ -35,6 +36,13 @@
     #secondary_menu a:hover {
       color: #{{ request.site.sitesetting.secondary_menu_font_color_hover }};
     }
+
+    /* contacts */
+    #contacts ul {
+      font-size: {{ request.site.sitesetting.contacts_menu_font_size }}px;
+      color: #{{ request.site.sitesetting.contacts_menu_font_color }};
+    }
+
     </style>
     {% endcompress %}
 

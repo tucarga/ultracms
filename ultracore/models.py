@@ -362,12 +362,18 @@ class SiteSetting(BaseSetting):
         FieldPanel('secondary_menu_font_size'),
         FieldPanel('secondary_menu_font_color'),
         FieldPanel('secondary_menu_font_color_hover'),
+        FieldPanel('contacts_menu_font_size'),
+        FieldPanel('contacts_menu_font_color'),
     ]
 
     # secondary menu settings
     secondary_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
     secondary_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
     secondary_menu_font_color_hover = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+
+    # contact settings
+    contacts_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
+    contacts_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.

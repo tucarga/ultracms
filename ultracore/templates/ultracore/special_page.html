@@ -26,7 +26,7 @@
 
   {% get_contacts self as contacts %}
 
-  <div class="large-{% if contacts %}6{% else %}9{% endif %} columns">
+  <div id="page-body" class="large-{% if contacts %}6{% else %}9{% endif %} columns">
 
     {% include "ultracore/includes/body.html" with body=self.body only %}
 
@@ -40,6 +40,7 @@
 
   </div>
 
+
   {% endif %}
 
 </div> <!-- end row -->
@@ -49,12 +50,15 @@
 {% block extra_js %}
 <script>
 $(document).ready(function() {
+  // secondary menu
   $('.sub-menu').hide();
   $('.sub-menu.active').show();
   $('.menu > .menu-item:has(ul) > a').click(function(event) {
     event.preventDefault();
     $(this).siblings('ul').toggle();
   });
+  // Set contacts div height equal to page-body height
+  $('#contacts').height($('#page-body').height())
 });
 </script>
 {% endblock %}
