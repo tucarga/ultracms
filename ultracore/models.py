@@ -329,23 +329,29 @@ register_snippet(Tag)
 
 # Settings
 
+
 @register_setting
 class SiteSetting(BaseSetting):
+    COLOR_CHOICES = (
+        ('000000', "Black"),
+        ('7bd148', "Green"),
+        ('5484ed', "Bold blue"),
+        ('a4bdfc', "Blue"),
+        ('46d6db', "Turquoise"),
+        ('7ae7bf', "Light green"),
+        ('51b749', "Bold green"),
+        ('fbd75b', "Yellow"),
+        ('ffb878', "Orange"),
+        ('ff887c', "Red"),
+        ('dc2127', "Bold red"),
+        ('dbadff', "Purple"),
+        ('e1e1e1', "Gray"),
+    )
+    FONT_SIZE_DEFAULT = 10
+
     title = models.CharField(max_length=255)
-    site_logo = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    background_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
+    site_logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    background_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     footer = RichTextField()
 
     panels = [
@@ -353,8 +359,15 @@ class SiteSetting(BaseSetting):
         ImageChooserPanel('site_logo'),
         ImageChooserPanel('background_image'),
         FieldPanel('footer'),
+        FieldPanel('secondary_menu_font_size'),
+        FieldPanel('secondary_menu_font_color'),
+        FieldPanel('secondary_menu_font_color_hover'),
     ]
 
+    # secondary menu settings
+    secondary_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
+    secondary_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    secondary_menu_font_color_hover = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.

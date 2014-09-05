@@ -24,6 +24,18 @@
     {#<link rel="stylesheet" type="text/x-scss" href="{% static "css/main.scss" %}" />#}
     <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" />
 
+    <style>
+    #secondary_menu ul, ul {
+      list-style-type: none;
+    }
+    #secondary_menu a{
+      font-size: {{ request.site.sitesetting.secondary_menu_font_size }}px;
+      color: #{{ request.site.sitesetting.secondary_menu_font_color }};
+    }
+    #secondary_menu a:hover {
+      color: #{{ request.site.sitesetting.secondary_menu_font_color_hover }};
+    }
+    </style>
     {% endcompress %}
 
     {% block extra_css %}
