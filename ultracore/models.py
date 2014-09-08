@@ -386,7 +386,7 @@ class SiteSetting(BaseSetting):
     contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
     # google analytics
-    google_analytics_code = models.CharField(max_length=13)  # TODO:null true
+    google_analytics_code = models.CharField(max_length=13, null=True, blank=True)
 
     # header
     header_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
