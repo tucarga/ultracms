@@ -76,6 +76,10 @@
       background-color: {{ request.site.sitesetting.header_menu_children_background_color_hover }};
     }
 
+  footer {
+    background-color: {{ request.site.sitesetting.footer_background_color }};
+  }
+
     </style>
     {% endcompress %}
 
@@ -178,15 +182,12 @@
 
         </div><!-- container -->
       </div><!-- content -->
+      <hr>
+      <footer>
 
-      <div id="footer-wrapper">
-        <hr>
-        <footer class="panel">
+        {{ request.site.sitesetting.footer|richtext }}
 
-          {{ request.site.sitesetting.footer|richtext }}
-
-	</footer>
-      </div><!-- footer-wrapper -->
+      </footer>
     </div><!-- background -->
 
     {# Base javascript #}

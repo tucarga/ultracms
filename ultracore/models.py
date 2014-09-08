@@ -374,6 +374,7 @@ class SiteSetting(BaseSetting):
         FieldPanel('header_font_size'),
         FieldPanel('header_font_color'),
         FieldPanel('header_font_color_hover'),
+        FieldPanel('footer_background_color'),
     ]
 
     # secondary menu settings
@@ -395,6 +396,9 @@ class SiteSetting(BaseSetting):
     header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
     
     header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+
+    # footer
+    footer_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
     @property
     def header_font_color_active(self):
