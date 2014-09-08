@@ -80,6 +80,18 @@
     background-color: {{ request.site.sitesetting.footer_background_color }};
   }
 
+  {% image request.site.sitesetting.background_image min-1024x768 as background_image %}
+
+  #container {
+    {% if background_image %}
+    background: url({{ background_image.url }}) no-repeat center center fixed;
+    {% endif %}
+    background-color: {{ request.site.sitesetting.background_color }};
+  }
+
+  #page-content {
+    background-color: {{ request.site.sitesetting.content_background_color }};
+  }
     </style>
     {% endcompress %}
 
@@ -115,80 +127,62 @@
 
   </head>
 
-  <body class="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
+{% image request.site.sitesetting.background_image min-1024x768 as background_image %}
 
-    {% image request.site.sitesetting.background_image min-1024x768 as background_image %}
-    <div id="background" style="background-image: url({{ background_image.url }})">
+<body class="{% block body_class %}{% endblock %}"> {# Override this block to set custom body classes on a template by template basis #}
+  <div id="container">
 
-      {% comment %}
+  {% comment %}
+  {% get_language_info_list for LANGUAGES as languages %}
+  {% for language in languages %}
+    <div class="large-1 column hide-for-medium-down">
+      <form action="{% url "set_language" %}" method="post">
+      {% csrf_token %}
+        <input name="next" type="hidden" value="?" />
+        <input name="language" type="hidden" value="{{ language.code }}"/>
+        <input type="submit" id="language" value="{{ language.name_local }}"  class="button tiny radius disabled" />
+      </form>
+    </div>
+  {% endfor %}
+  {% endcomment %}
 
-      <div id="header" class="row">
-        <div class="large-2 large-offset-8 column hide-for-medium-down">
-          <a href="" title="" class="pay button tiny radius alert">Pago en linea</a>
+    <div id="header">
+
+      {% block menu %}
+
+      {% get_site_root as site_root %}
+      {% top_menu parent=site_root calling_page=self %}
+
+      {% endblock %}
+
+    </div>
+
+    <div id="page-content" class="row">
+      <div class="large-12 columns">
+        <div id="heading">
+
+        {% block heading %}
+
+        {% endblock %}
+
         </div>
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-        <div class="large-1 column hide-for-medium-down">
-          <form action="{% url "set_language" %}" method="post">
-            {% csrf_token %}
-            <input name="next" type="hidden" value="?" />
-            <input name="language" type="hidden" value="{{ language.code }}"/>
-            <input type="submit" id="language" value="{{ language.name_local }}"  class="button tiny radius disabled" />
-          </form>
+        <div id="content">
+
+        {% block content %}
+
+       {% endblock %}
+
         </div>
-        {% endfor %}
-      </div><!-- header -->
-
-      {% endcomment %}
-
-      <div id="header">
-
-          {% block menu %}
-
-          {% get_site_root as site_root %}
-          {% top_menu parent=site_root calling_page=self %}
-
-          {% endblock %}
-
-      </div><!-- menu -->
-
-      <div class="row">
-        <div id="container" class="large-12 column">
-          <div id="heading">
-
-            {% block heading %}
-
-            {% endblock %}
-
-          </div>
-
-          <div id="content">
-
-          {% block content %}
-
-          {% endblock %}
-
-          </div>
-
-          {% comment %}
-
-          {% block secondary_menu %}
-
-          {% secondary_menu calling_page=self %}
-
-          {% endblock %}
-
-          {% endcomment %}
-
-        </div><!-- container -->
-      </div><!-- content -->
+      </div>
+    </div>
+    <div id="footer">
       <hr>
       <footer>
 
-        {{ request.site.sitesetting.footer|richtext }}
+      {{ request.site.sitesetting.footer|richtext }}
 
       </footer>
-    </div><!-- background -->
+    </div>
 
     {# Base javascript #}
     <script src="{% static "js/jquery.min.js" %}"></script>

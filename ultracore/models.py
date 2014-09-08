@@ -356,12 +356,14 @@ class SiteSetting(BaseSetting):
     title = models.CharField(max_length=255)
     site_logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     background_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-    footer = RichTextField()
+    background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    footer = RichTextField(null=True, blank=True)
 
     panels = [
         FieldPanel('title'),
         ImageChooserPanel('site_logo'),
         ImageChooserPanel('background_image'),
+        FieldPanel('background_color'),
         FieldPanel('footer'),
         FieldPanel('secondary_menu_font_size'),
         FieldPanel('secondary_menu_font_color'),
@@ -374,31 +376,35 @@ class SiteSetting(BaseSetting):
         FieldPanel('header_font_size'),
         FieldPanel('header_font_color'),
         FieldPanel('header_font_color_hover'),
+        FieldPanel('content_background_color'),
         FieldPanel('footer_background_color'),
     ]
 
     # secondary menu settings
-    secondary_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    secondary_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
-    secondary_menu_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    secondary_menu_font_size = models.IntegerField(null=True, blank=True)
+    secondary_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    secondary_menu_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
 
     # contact settings
-    contacts_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    contacts_menu_font_size = models.IntegerField(null=True, blank=True)
+    contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
 
     # google analytics
     google_analytics_code = models.CharField(max_length=13, null=True, blank=True)
 
     # header
-    header_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
-    header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
-    header_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    header_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    header_font_size = models.IntegerField(null=True, blank=True)
+    header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
     
-    header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+
+    # content
+    content_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
 
     # footer
-    footer_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    footer_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
 
     @property
     def header_font_color_active(self):
