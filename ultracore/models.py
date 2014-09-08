@@ -1,4 +1,5 @@
 from django.db import models
+from pygal.colors import darken, lighten
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -333,21 +334,24 @@ register_snippet(Tag)
 @register_setting
 class SiteSetting(BaseSetting):
     COLOR_CHOICES = (
-        ('000000', "Black"),
-        ('7bd148', "Green"),
-        ('5484ed', "Bold blue"),
-        ('a4bdfc', "Blue"),
-        ('46d6db', "Turquoise"),
-        ('7ae7bf', "Light green"),
-        ('51b749', "Bold green"),
-        ('fbd75b', "Yellow"),
-        ('ffb878', "Orange"),
-        ('ff887c', "Red"),
-        ('dc2127', "Bold red"),
-        ('dbadff', "Purple"),
-        ('e1e1e1', "Gray"),
+        ('#000000', "Black"),
+        ('#7bd148', "Green"),
+        ('#5484ed', "Bold blue"),
+        ('#a4bdfc', "Blue"),
+        ('#46d6db', "Turquoise"),
+        ('#7ae7bf', "Light green"),
+        ('#51b749', "Bold green"),
+        ('#fbd75b', "Yellow"),
+        ('#ffb878', "Orange"),
+        ('#ff887c', "Red"),
+        ('#dc2127', "Bold red"),
+        ('#dbadff', "Purple"),
+        ('#e1e1e1', "Gray"),
     )
     FONT_SIZE_DEFAULT = 10
+    COLOR_FIELD_DEFAULT_MAX_LENGTH = len(COLOR_CHOICES[0][0])
+    COLOR_DARKEN_DEFAULT_PERCENTAGE = 10
+    COLOR_LIGHTEN_DEFAULT_PERCENTAGE = 10
 
     title = models.CharField(max_length=255)
     site_logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -365,19 +369,52 @@ class SiteSetting(BaseSetting):
         FieldPanel('contacts_menu_font_size'),
         FieldPanel('contacts_menu_font_color'),
         FieldPanel('google_analytics_code'),
+        FieldPanel('header_background_color'),
+        FieldPanel('header_menu_parent_background_color'),
+        FieldPanel('header_font_size'),
+        FieldPanel('header_font_color'),
+        FieldPanel('header_font_color_hover'),
     ]
 
     # secondary menu settings
     secondary_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    secondary_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
-    secondary_menu_font_color_hover = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    secondary_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    secondary_menu_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
     # contact settings
     contacts_menu_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    contacts_menu_font_color = models.CharField(max_length=6, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
 
     # google analytics
-    google_analytics_code = models.CharField(max_length=13)
+    google_analytics_code = models.CharField(max_length=13)  # TODO:null true
+
+    # header
+    header_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    header_font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
+    header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    
+    header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+
+    @property
+    def header_font_color_active(self):
+        return self.header_font_color
+
+    @property
+    def header_menu_parent_background_color_hover(self):
+        return darken(self.header_menu_parent_background_color, self.COLOR_DARKEN_DEFAULT_PERCENTAGE)
+
+    @property
+    def header_menu_parent_background_color_active(self):
+        return darken(self.header_menu_parent_background_color, self.COLOR_DARKEN_DEFAULT_PERCENTAGE)
+
+    @property
+    def header_menu_children_background_color(self):
+        return lighten(self.header_menu_parent_background_color, self.COLOR_LIGHTEN_DEFAULT_PERCENTAGE)
+
+    @property
+    def header_menu_children_background_color_hover(self):
+        return self.header_menu_parent_background_color
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.
@@ -386,8 +423,8 @@ class SiteSetting(BaseSetting):
 #
 # from https://github.com/torchbox/wagtail/issues/338
 
-from wagtail.wagtailadmin.edit_handlers import WagtailAdminModelForm
 
+from wagtail.wagtailadmin.edit_handlers import WagtailAdminModelForm
 WagtailAdminModelFormInit = WagtailAdminModelForm.__init__
 
 

@@ -31,16 +31,49 @@
     }
     #secondary_menu a{
       font-size: {{ request.site.sitesetting.secondary_menu_font_size }}px;
-      color: #{{ request.site.sitesetting.secondary_menu_font_color }};
+      color: {{ request.site.sitesetting.secondary_menu_font_color }};
     }
     #secondary_menu a:hover {
-      color: #{{ request.site.sitesetting.secondary_menu_font_color_hover }};
+      color: {{ request.site.sitesetting.secondary_menu_font_color_hover }};
     }
 
     /* contacts */
     #contacts ul {
       font-size: {{ request.site.sitesetting.contacts_menu_font_size }}px;
-      color: #{{ request.site.sitesetting.contacts_menu_font_color }};
+      color: {{ request.site.sitesetting.contacts_menu_font_color }};
+    }
+
+    /* header */
+    #header {
+      background-color: {{ request.site.sitesetting.header_background_color }} !important;
+    }
+
+    #header .parent-menu,
+    #header .children-menu {
+      font-size: {{ request.site.sitesetting.header_font_size }}px;
+      color: {{ request.site.sitesetting.header_font_color }};
+    }
+
+    #header .parent-menu {
+      background-color: {{ request.site.sitesetting.header_menu_parent_background_color }};
+    }
+
+    #header .parent-menu:hover {
+      background-color: {{ request.site.sitesetting.header_menu_parent_background_color_hover }};
+      color: {{ request.site.sitesetting.header_font_color_hover }};
+    }
+
+    #header .active > a {
+      background-color: {{ request.site.sitesetting.header_menu_parent_background_color_active }};
+      color: {{ request.site.sitesetting.header_font_color_active }};
+    }
+
+   #header .children-menu {
+      background-color: {{ request.site.sitesetting.header_menu_children_background_color }};
+    }
+
+   #header .children-menu:hover {
+      background-color: {{ request.site.sitesetting.header_menu_children_background_color_hover }};
     }
 
     </style>
@@ -104,7 +137,7 @@
 
       {% endcomment %}
 
-      <div id="menu">
+      <div id="header">
 
           {% block menu %}
 

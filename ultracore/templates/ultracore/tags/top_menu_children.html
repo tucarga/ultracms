@@ -4,7 +4,7 @@
 
   {% for child in menuitems_children %}
 
-  <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
+  <li><a href="{% pageurl child %}" class="children-menu">{{ child.title }}</a></li>
 
   {% endfor %}
 

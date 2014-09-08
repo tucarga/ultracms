@@ -27,11 +27,11 @@
 
         {% if menuitem.specific.hide_link_in_menu %}
 
-        <a >{{ menuitem.title }}</a>
+        <a class="parent-menu">{{ menuitem.title }}</a>
 
         {% else %}
 
-        <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+        <a href="{% pageurl menuitem %}" class="parent-menu">{{ menuitem.title }}</a>
 
         {% endif %}
 
@@ -52,7 +52,7 @@
     {% for menuitem in extra_menuitems %}
 
       <li>
-        <a href="{{ menuitem.link }}">{{ menuitem.name }}</a>
+        <a href="{{ menuitem.link }}" class="parent-menu">{{ menuitem.name }}</a>
       </li>
 
     {% endfor %}
