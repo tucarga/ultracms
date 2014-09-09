@@ -188,10 +188,12 @@ FormPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('tags'),
-    FieldPanel('font_size'),
-    FieldPanel('font_color'),
-    FieldPanel('button_text'),
-] + AbstractPageExtension.promote_panels
+    MultiFieldPanel([
+        FieldPanel('font_size'),
+        FieldPanel('font_color'),
+        FieldPanel('button_text'), ] + AbstractPageExtension.promote_panels,
+        "Style")
+]
 
 
 class StandardPage(wagtail_models.Page, AbstractPageExtension):
@@ -378,24 +380,36 @@ class SiteSetting(BaseSetting):
     footer = RichTextField(null=True, blank=True)
 
     panels = [
-        FieldPanel('title'),
-        ImageChooserPanel('site_logo'),
-        ImageChooserPanel('background_image'),
-        FieldPanel('background_color'),
-        FieldPanel('footer'),
-        FieldPanel('secondary_menu_font_size'),
-        FieldPanel('secondary_menu_font_color'),
-        FieldPanel('secondary_menu_font_color_hover'),
-        FieldPanel('contacts_menu_font_size'),
-        FieldPanel('contacts_menu_font_color'),
-        FieldPanel('google_analytics_code'),
-        FieldPanel('header_background_color'),
-        FieldPanel('header_menu_parent_background_color'),
-        FieldPanel('header_font_size'),
-        FieldPanel('header_font_color'),
-        FieldPanel('header_font_color_hover'),
-        FieldPanel('content_background_color'),
-        FieldPanel('footer_background_color'),
+        MultiFieldPanel([
+            FieldPanel('title'),
+            ImageChooserPanel('site_logo'),
+            ImageChooserPanel('background_image'),
+            FieldPanel('background_color'),
+            FieldPanel('content_background_color'), ],
+            "Content"),
+        MultiFieldPanel([
+            FieldPanel('header_background_color'),
+            FieldPanel('header_menu_parent_background_color'),
+            FieldPanel('header_font_size'),
+            FieldPanel('header_font_color'),
+            FieldPanel('header_font_color_hover'), ],
+            "Header"),
+        MultiFieldPanel([
+            FieldPanel('secondary_menu_font_size'),
+            FieldPanel('secondary_menu_font_color'),
+            FieldPanel('secondary_menu_font_color_hover'), ],
+            "Secondary menu"),
+        MultiFieldPanel([
+            FieldPanel('contacts_menu_font_size'),
+            FieldPanel('contacts_menu_font_color'), ],
+            "Contacts menu"),
+        MultiFieldPanel([
+            FieldPanel('footer'),
+            FieldPanel('footer_background_color'), ],
+            "Footer"),
+        MultiFieldPanel([
+            FieldPanel('google_analytics_code'), ],
+            "Google Analytics"),
     ]
 
     # secondary menu settings
