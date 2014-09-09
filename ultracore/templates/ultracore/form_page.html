@@ -24,7 +24,7 @@
 
       {{ form.as_p }}
 
-      <input type="submit">
+      <button>{{ self.button_text }}</button>
     </form>
   </div>
 
@@ -40,4 +40,15 @@
 
 </div> <!-- end row -->
 
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+form label,
+form input {
+  font-size: {{ self.font_size }}px;
+  color: {{ self.font_color }};
+}
+</style>
 {% endblock %}

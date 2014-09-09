@@ -167,6 +167,10 @@ class FormPage(AbstractEmailForm, AbstractPageExtension):
 
     tags = ClusterTaggableManager(through=FormPageTag, blank=True)
 
+    # style
+    font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
+    font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    button_text = models.CharField(max_length=30)
 
 FormPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -184,6 +188,9 @@ FormPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('tags'),
+    FieldPanel('font_size'),
+    FieldPanel('font_color'),
+    FieldPanel('button_text'),
 ] + AbstractPageExtension.promote_panels
 
 

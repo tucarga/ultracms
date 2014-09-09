@@ -79,6 +79,9 @@ class Migration(SchemaMigration):
             ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
             ('intro', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('thank_you_text', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
+            ('font_size', self.gf('django.db.models.fields.IntegerField')(default=10)),
+            ('font_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
+            ('button_text', self.gf('django.db.models.fields.CharField')(max_length=30)),
         ))
         db.send_create_signal(u'ultracore', ['FormPage'])
 
@@ -331,6 +334,9 @@ class Migration(SchemaMigration):
         u'ultracore.formpage': {
             'Meta': {'object_name': 'FormPage'},
             'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
+            'button_text': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'font_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
+            'font_size': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
             'from_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'intro': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
