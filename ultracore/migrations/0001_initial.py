@@ -44,6 +44,7 @@ class Migration(SchemaMigration):
         # Adding model 'HomePage'
         db.create_table(u'ultracore_homepage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
         ))
         db.send_create_signal(u'ultracore', ['HomePage'])
 
@@ -75,6 +76,7 @@ class Migration(SchemaMigration):
             ('to_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('from_address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('subject', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
             ('intro', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('thank_you_text', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
         ))
@@ -83,6 +85,7 @@ class Migration(SchemaMigration):
         # Adding model 'StandardPage'
         db.create_table(u'ultracore_standardpage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('hide_link_in_menu', self.gf('django.db.models.fields.BooleanField')()),
         ))
@@ -99,6 +102,7 @@ class Migration(SchemaMigration):
         # Adding model 'SpecialPage'
         db.create_table(u'ultracore_specialpage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
             ('feed_image', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, on_delete=models.SET_NULL, to=orm['wagtailimages.Image'])),
             ('side_title', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
@@ -109,6 +113,7 @@ class Migration(SchemaMigration):
         # Adding model 'DirectoryPage'
         db.create_table(u'ultracore_directorypage', (
             (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
             ('body', self.gf('wagtail.wagtailcore.fields.RichTextField')(blank=True)),
             ('hide_link_in_menu', self.gf('django.db.models.fields.BooleanField')()),
         ))
@@ -306,6 +311,7 @@ class Migration(SchemaMigration):
         },
         u'ultracore.directorypage': {
             'Meta': {'object_name': 'DirectoryPage', '_ormbases': [u'wagtailcore.Page']},
+            'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
@@ -324,6 +330,7 @@ class Migration(SchemaMigration):
         },
         u'ultracore.formpage': {
             'Meta': {'object_name': 'FormPage'},
+            'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
             'from_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'intro': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'}),
@@ -339,6 +346,7 @@ class Migration(SchemaMigration):
         },
         u'ultracore.homepage': {
             'Meta': {'object_name': 'HomePage', '_ormbases': [u'wagtailcore.Page']},
+            'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'ultracore.homepagecarouselitem': {
@@ -399,6 +407,7 @@ class Migration(SchemaMigration):
         },
         u'ultracore.specialpage': {
             'Meta': {'object_name': 'SpecialPage', '_ormbases': [u'wagtailcore.Page']},
+            'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'feed_image': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['wagtailimages.Image']"}),
             'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
@@ -413,6 +422,7 @@ class Migration(SchemaMigration):
         },
         u'ultracore.standardpage': {
             'Meta': {'object_name': 'StandardPage', '_ormbases': [u'wagtailcore.Page']},
+            'background_color': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'}),
             'body': ('wagtail.wagtailcore.fields.RichTextField', [], {'blank': 'True'}),
             'hide_link_in_menu': ('django.db.models.fields.BooleanField', [], {}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})

@@ -1,0 +1,30 @@
+{% extends "ultracore/base.html" %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+  // secondary menu
+  $('.sub-menu').hide();
+  $('.sub-menu.active').show();
+  $('.menu > .menu-item:has(ul) > a').click(function(event) {
+    event.preventDefault();
+    $(this).siblings('ul').toggle();
+  });
+  // Set contacts div height equal to page-body height
+  $('#contacts').height($('#page-body').height())
+});
+</script>
+{% endblock %}
+
+{% block extra_css%}
+<style>
+{# Overwrite content background color #}
+  #page-content {
+    background-color: {{ self.background_color }};
+  }
+</style>
+{% endblock %}

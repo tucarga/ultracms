@@ -16,6 +16,37 @@ from wagtail.wagtailsnippets.models import register_snippet
 from wagtailsettings.models import register_setting, BaseSetting
 
 
+COLOR_CHOICES = (
+    ('#000000', "Black"),
+    ('#7bd148', "Green"),
+    ('#5484ed', "Bold blue"),
+    ('#a4bdfc', "Blue"),
+    ('#46d6db', "Turquoise"),
+    ('#7ae7bf', "Light green"),
+    ('#51b749', "Bold green"),
+    ('#fbd75b', "Yellow"),
+    ('#ffb878', "Orange"),
+    ('#ff887c', "Red"),
+    ('#dc2127', "Bold red"),
+    ('#dbadff', "Purple"),
+    ('#e1e1e1', "Gray"),
+)
+FONT_SIZE_DEFAULT = 10
+COLOR_FIELD_DEFAULT_MAX_LENGTH = len(COLOR_CHOICES[0][0])
+COLOR_DARKEN_DEFAULT_PERCENTAGE = 10
+COLOR_LIGHTEN_DEFAULT_PERCENTAGE = 10
+
+
+class AbstractPageExtension(models.Model):
+    background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+AbstractPageExtension.promote_panels = [FieldPanel('background_color')]
+
+
 class LinkFields(models.Model):
     link_external = models.URLField("External link", blank=True)
     link_page = models.ForeignKey(
@@ -102,7 +133,7 @@ class HomePageService(wagtail_models.Orderable, Service):
                        related_name='services')
 
 
-class HomePage(wagtail_models.Page):
+class HomePage(wagtail_models.Page, AbstractPageExtension):
 
     class Meta:
         verbose_name = "Homepage"
@@ -118,7 +149,7 @@ HomePage.content_panels = [
 HomePage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
-]
+] + AbstractPageExtension.promote_panels
 
 
 class FormField(AbstractFormField):
@@ -130,7 +161,7 @@ class FormPageTag(TaggedItemBase):
                                  related_name='tagged_items')
 
 
-class FormPage(AbstractEmailForm):
+class FormPage(AbstractEmailForm, AbstractPageExtension):
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
 
@@ -153,10 +184,10 @@ FormPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('tags'),
-    ]
+] + AbstractPageExtension.promote_panels
 
 
-class StandardPage(wagtail_models.Page):
+class StandardPage(wagtail_models.Page, AbstractPageExtension):
     body = RichTextField(blank=True)
 
     indexed_fields = ('body', )
@@ -175,7 +206,7 @@ StandardPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('hide_link_in_menu'),
-]
+] + AbstractPageExtension.promote_panels
 
 
 class SpecialPageTag(TaggedItemBase):
@@ -183,7 +214,7 @@ class SpecialPageTag(TaggedItemBase):
                                  related_name='tagged_items')
 
 
-class SpecialPage(wagtail_models.Page):
+class SpecialPage(wagtail_models.Page, AbstractPageExtension):
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -215,10 +246,10 @@ SpecialPage.promote_panels = [
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('tags'),
     FieldPanel('hide_link_in_menu'),
-]
+] + AbstractPageExtension.promote_panels
 
 
-class DirectoryPage(wagtail_models.Page):
+class DirectoryPage(wagtail_models.Page, AbstractPageExtension):
     body = RichTextField(blank=True)
 
     indexed_fields = ('body', )
@@ -237,7 +268,7 @@ DirectoryPage.promote_panels = [
     MultiFieldPanel(
         wagtail_models.Page.promote_panels, "Common page configuration"),
     FieldPanel('hide_link_in_menu'),
-]
+] + AbstractPageExtension.promote_panels
 
 
 class Contact(models.Model):
@@ -333,26 +364,6 @@ register_snippet(Tag)
 
 @register_setting
 class SiteSetting(BaseSetting):
-    COLOR_CHOICES = (
-        ('#000000', "Black"),
-        ('#7bd148', "Green"),
-        ('#5484ed', "Bold blue"),
-        ('#a4bdfc', "Blue"),
-        ('#46d6db', "Turquoise"),
-        ('#7ae7bf', "Light green"),
-        ('#51b749', "Bold green"),
-        ('#fbd75b', "Yellow"),
-        ('#ffb878', "Orange"),
-        ('#ff887c', "Red"),
-        ('#dc2127', "Bold red"),
-        ('#dbadff', "Purple"),
-        ('#e1e1e1', "Gray"),
-    )
-    FONT_SIZE_DEFAULT = 10
-    COLOR_FIELD_DEFAULT_MAX_LENGTH = len(COLOR_CHOICES[0][0])
-    COLOR_DARKEN_DEFAULT_PERCENTAGE = 10
-    COLOR_LIGHTEN_DEFAULT_PERCENTAGE = 10
-
     title = models.CharField(max_length=255)
     site_logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     background_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -397,7 +408,6 @@ class SiteSetting(BaseSetting):
     header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
     header_font_size = models.IntegerField(null=True, blank=True)
     header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
-    
     header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
 
     # content
@@ -412,15 +422,15 @@ class SiteSetting(BaseSetting):
 
     @property
     def header_menu_parent_background_color_hover(self):
-        return darken(self.header_menu_parent_background_color, self.COLOR_DARKEN_DEFAULT_PERCENTAGE)
+        return darken(self.header_menu_parent_background_color, COLOR_DARKEN_DEFAULT_PERCENTAGE)
 
     @property
     def header_menu_parent_background_color_active(self):
-        return darken(self.header_menu_parent_background_color, self.COLOR_DARKEN_DEFAULT_PERCENTAGE)
+        return darken(self.header_menu_parent_background_color, COLOR_DARKEN_DEFAULT_PERCENTAGE)
 
     @property
     def header_menu_children_background_color(self):
-        return lighten(self.header_menu_parent_background_color, self.COLOR_LIGHTEN_DEFAULT_PERCENTAGE)
+        return lighten(self.header_menu_parent_background_color, COLOR_LIGHTEN_DEFAULT_PERCENTAGE)
 
     @property
     def header_menu_children_background_color_hover(self):
