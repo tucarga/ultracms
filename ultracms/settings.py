@@ -132,6 +132,8 @@ COMPRESS_PRECOMPILERS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+
 if DEBUG:
     # debug toolbar
     DEBUG_TOOLBAR_PATCH_SETTINGS = False
