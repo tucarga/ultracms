@@ -1,11 +1,14 @@
+from django.conf import settings
 from django.db import models
+from django.utils.safestring import mark_safe
+
 from pygal.colors import darken, lighten
 
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
-    InlinePanel, PageChooserPanel
+    InlinePanel, PageChooserPanel, BaseFieldPanel
 from wagtail.wagtailcore import models as wagtail_models
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
@@ -15,36 +18,62 @@ from wagtail.wagtailsnippets.models import register_snippet
 
 from wagtailsettings.models import register_setting, BaseSetting
 
-
-COLOR_CHOICES = (
-    ('#000000', "Black"),
-    ('#7bd148', "Green"),
-    ('#5484ed', "Bold blue"),
-    ('#a4bdfc', "Blue"),
-    ('#46d6db', "Turquoise"),
-    ('#7ae7bf', "Light green"),
-    ('#51b749', "Bold green"),
-    ('#fbd75b', "Yellow"),
-    ('#ffb878', "Orange"),
-    ('#ff887c', "Red"),
-    ('#dc2127', "Bold red"),
-    ('#dbadff', "Purple"),
-    ('#e1e1e1', "Gray"),
-)
 FONT_SIZE_DEFAULT = 10
-COLOR_FIELD_DEFAULT_MAX_LENGTH = len(COLOR_CHOICES[0][0])
+COLOR_FIELD_MAX_LENGTH = 7
 COLOR_DARKEN_DEFAULT_PERCENTAGE = 10
 COLOR_LIGHTEN_DEFAULT_PERCENTAGE = 10
 
 
+class BaseColorFieldPanel(BaseFieldPanel):
+    def render_js(self):
+        big_javascript_block = """
+        (function() {
+          var cpjs = document.createElement('script');
+          cpjs.type = 'text/javascript';
+          cpjs.async = true;
+          cpjs.src = '%s';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cpjs, s);
+
+          var cpcss = document.createElement('link');
+          cpcss.rel = 'stylesheet';
+          cpcss.media = 'screen';
+          cpcss.type = 'text/css';
+          cpcss.href = '%s';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cpcss, s);
+
+          setTimeout(function () {
+            var options = {
+              'onSubmit': function (a, color, c, input) {
+                $(input).attr('value', '#' + color);
+              },
+              'onShow': function () {
+                $('.colorpicker').css('z-index', 10);
+              }
+            }
+            $('#%%s').ColorPicker(options);
+          }, 3000);
+        })();
+        """ % (
+            settings.STATIC_URL + 'js/colorpicker.js',
+            settings.STATIC_URL + 'css/colorpicker.css'
+        )
+        return mark_safe(big_javascript_block % self.bound_field.id_for_label)
+
+
+def ColorFieldPanel(field_name):
+    return type(str('_ColorFieldPanel'), (BaseColorFieldPanel,), {
+        'field_name': field_name,
+    })
+
+
 class AbstractPageExtension(models.Model):
-    background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     class Meta:
         abstract = True
 
 
-AbstractPageExtension.promote_panels = [FieldPanel('background_color')]
+AbstractPageExtension.promote_panels = [ColorFieldPanel('background_color')]
 
 
 class LinkFields(models.Model):
@@ -169,7 +198,7 @@ class FormPage(AbstractEmailForm, AbstractPageExtension):
 
     # style
     font_size = models.IntegerField(default=FONT_SIZE_DEFAULT)
-    font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    font_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
     button_text = models.CharField(max_length=30)
 
 FormPage.content_panels = [
@@ -190,7 +219,7 @@ FormPage.promote_panels = [
     FieldPanel('tags'),
     MultiFieldPanel([
         FieldPanel('font_size'),
-        FieldPanel('font_color'),
+        ColorFieldPanel('font_color'),
         FieldPanel('button_text'), ] + AbstractPageExtension.promote_panels,
         "Style")
 ]
@@ -376,7 +405,7 @@ class SiteSetting(BaseSetting):
     title = models.CharField(max_length=255)
     site_logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     background_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
-    background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
     footer = RichTextField(null=True, blank=True)
 
     panels = [
@@ -384,28 +413,28 @@ class SiteSetting(BaseSetting):
             FieldPanel('title'),
             ImageChooserPanel('site_logo'),
             ImageChooserPanel('background_image'),
-            FieldPanel('background_color'),
-            FieldPanel('content_background_color'), ],
+            ColorFieldPanel('background_color'),
+            ColorFieldPanel('content_background_color'), ],
             "Content"),
         MultiFieldPanel([
-            FieldPanel('header_background_color'),
-            FieldPanel('header_menu_parent_background_color'),
+            ColorFieldPanel('header_background_color'),
+            ColorFieldPanel('header_menu_parent_background_color'),
             FieldPanel('header_font_size'),
-            FieldPanel('header_font_color'),
-            FieldPanel('header_font_color_hover'), ],
+            ColorFieldPanel('header_font_color'),
+            ColorFieldPanel('header_font_color_hover'), ],
             "Header"),
         MultiFieldPanel([
             FieldPanel('secondary_menu_font_size'),
-            FieldPanel('secondary_menu_font_color'),
-            FieldPanel('secondary_menu_font_color_hover'), ],
+            ColorFieldPanel('secondary_menu_font_color'),
+            ColorFieldPanel('secondary_menu_font_color_hover'), ],
             "Secondary menu"),
         MultiFieldPanel([
             FieldPanel('contacts_menu_font_size'),
-            FieldPanel('contacts_menu_font_color'), ],
+            ColorFieldPanel('contacts_menu_font_color'), ],
             "Contacts menu"),
         MultiFieldPanel([
             FieldPanel('footer'),
-            FieldPanel('footer_background_color'), ],
+            ColorFieldPanel('footer_background_color'), ],
             "Footer"),
         MultiFieldPanel([
             FieldPanel('google_analytics_code'), ],
@@ -414,28 +443,28 @@ class SiteSetting(BaseSetting):
 
     # secondary menu settings
     secondary_menu_font_size = models.IntegerField(null=True, blank=True)
-    secondary_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
-    secondary_menu_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    secondary_menu_font_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
+    secondary_menu_font_color_hover = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     # contact settings
     contacts_menu_font_size = models.IntegerField(null=True, blank=True)
-    contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    contacts_menu_font_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     # google analytics
     google_analytics_code = models.CharField(max_length=13, null=True, blank=True)
 
     # header
-    header_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
-    header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    header_background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
+    header_menu_parent_background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
     header_font_size = models.IntegerField(null=True, blank=True)
-    header_font_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
-    header_font_color_hover = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    header_font_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
+    header_font_color_hover = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     # content
-    content_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    content_background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     # footer
-    footer_background_color = models.CharField(max_length=COLOR_FIELD_DEFAULT_MAX_LENGTH, choices=COLOR_CHOICES, null=True, blank=True)
+    footer_background_color = models.CharField(max_length=COLOR_FIELD_MAX_LENGTH, null=True, blank=True)
 
     @property
     def header_font_color_active(self):
