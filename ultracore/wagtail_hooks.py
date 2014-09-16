@@ -44,4 +44,5 @@ def whitelister_element_rules():
     return {
         'span': attribute_rule({'style': True}),
         'font': attribute_rule({'size': True, 'face': True, 'color': True}),
+        'p': attribute_rule({'align': True}),
     }
