@@ -484,7 +484,7 @@ class SiteSetting(BaseSetting):
 
     @property
     def header_menu_children_background_color_hover(self):
-        return self.header_menu_parent_background_color
+        return self.header_menu_parent_background_color_hover
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.

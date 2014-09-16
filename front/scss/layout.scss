@@ -101,3 +101,16 @@ a:hover
 .hide-for-medium-up {
   text-align: center;
 }
+
+// destroy foundation style !!
+.top-bar-section li:not(.has-form) a:not(.button) {
+  background: #ffffff;
+}
+
+.top-bar-section .dropdown li:not(.has-form) a:not(.button) {
+  background: #ffffff;
+}
+
+.top-bar-section .dropdown li:not(.has-form) a:not(.button):hover {
+  background: #ffffff;
+}
