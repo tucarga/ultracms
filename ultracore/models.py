@@ -365,7 +365,8 @@ class Agency(models.Model):
     ]
 
     class Meta:
-        verbose_name = "Agencies"
+        verbose_name = "Agency"
+        verbose_name_plural = "Agencies"
 
     def __unicode__(self):
         return self.name
