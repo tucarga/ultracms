@@ -102,6 +102,11 @@ a:hover
   text-align: center;
 }
 
+// Content
+#content {
+    border-radius: 3px;
+}
+
 // destroy foundation style !!
 .top-bar-section li:not(.has-form) a:not(.button) {
   background: #ffffff;
