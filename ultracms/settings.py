@@ -2,7 +2,9 @@
 Django settings for ultracms project.
 """
 from django.utils.translation import ugettext_lazy as _
+
 import dj_database_url
+from amazons3.S3 import CallingFormat
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -42,7 +44,6 @@ INSTALLED_APPS = (
     'wagtail.wagtailusers',
     'wagtail.wagtailimages',
     'wagtail.wagtailembeds',
-    'wagtail.wagtailsearch',
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
 
@@ -106,8 +107,8 @@ TEMPLATE_DIRS = (
 )
 
 # wagtail
-WAGTAIL_SITE_NAME = 'Ultramar'
-LOGIN_URL = 'django.contrib.auth.views.login'
+WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME')
+LOGIN_URL = 'wagtailadmin_login'
 LOGIN_REDIRECT_URL = 'wagtailadmin_home'
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
@@ -133,6 +134,59 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+# STORAGE
+
+DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE', 'django.core.files.storage.FileSystemStorage')
+
+# END STORAGE
+
+# AWS
+
+# See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
+
+# See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
+AWS_AUTO_CREATE_BUCKET = True
+AWS_QUERYSTRING_AUTH = False
+
+# See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+if AWS_ACCESS_KEY_ID is not '':
+    STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+
+# AWS cache settings, don't change unless you know what you're doing:
+AWS_EXPIRY = 60 * 60 * 24 * 7
+AWS_HEADERS = {
+    'Cache-Control': 'max-age=%d, s-maxage=%d, must-revalidate' % (AWS_EXPIRY,
+                                                                   AWS_EXPIRY)
+}
+
+# END AWS
+
+# STATIC FILE
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
+STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'static'))
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
+STATIC_URL = os.environ.get('STATIC_URL', '/static/').format(AWS_STORAGE_BUCKET_NAME)
+
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
+STATICFILES_DIRS = (
+    os.path.normpath(os.path.join(BASE_DIR, 'assets')),
+)
+
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+# END STATIC FILE
+
 
 if DEBUG:
     # debug toolbar

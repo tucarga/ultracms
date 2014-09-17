@@ -5,7 +5,9 @@
 !.env_template
 README.html
 static/CACHE
-images/
+.images/
+media/
+front/images/
 original_images/
 front/bower_components
 front/css
