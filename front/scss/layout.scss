@@ -112,6 +112,10 @@ a:hover
   background: #ffffff;
 }
 
+.top-bar-section li:not(.has-form) a:not(.button):hover {
+  background: #ffffff;
+}
+
 .top-bar-section .dropdown li:not(.has-form) a:not(.button) {
   background: #ffffff;
 }
