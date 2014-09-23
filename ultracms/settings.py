@@ -10,6 +10,8 @@ from amazons3.S3 import CallingFormat
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+ADMINS = ((os.environ.get('ADMIN_NAME'), os.environ.get('ADMIN_EMAIL')), )
+
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -67,7 +69,7 @@ MIDDLEWARE_CLASSES = (
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 )
 
-ROOT_URLCONF = 'ultracms.urls'
+ROOT_URLCONF = os.environ.get('ROOT_URLCONF', 'ultracms.urls')
 
 WSGI_APPLICATION = 'ultracms.wsgi.application'
 
@@ -125,13 +127,8 @@ STATICFILES_FINDERS = (
 INSTALLED_APPS += ('django_extensions', )
 # end django extensions
 
-# django-compressor settings
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = os.environ.get('MEDIA_URL')
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
@@ -172,7 +169,7 @@ AWS_HEADERS = {
 STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'static'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = os.environ.get('STATIC_URL', '/static/').format(AWS_STORAGE_BUCKET_NAME)
+STATIC_URL = os.environ.get('STATIC_URL').format(AWS_STORAGE_BUCKET_NAME)
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
@@ -186,6 +183,16 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 # END STATIC FILE
+
+# django-compressor
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+COMPRESS_ENABLED = bool(os.environ.get('COMPRESS_ENABLED', False))
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_STORAGE = STATICFILES_STORAGE
+COMPRESS_URL = STATIC_URL
+# end django-compressor
 
 
 if DEBUG:

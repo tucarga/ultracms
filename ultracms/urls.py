@@ -1,10 +1,5 @@
-import os.path
-
-from django.conf import settings
 from django.conf.urls import patterns, include, url
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic.base import RedirectView
 
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
@@ -28,13 +23,3 @@ urlpatterns = patterns(
     # Wagtail's serving mechanism
     url(r'', include(wagtail_urls)),
 )
-
-
-if settings.DEBUG:
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-    urlpatterns += staticfiles_urlpatterns() # tell gunicorn where static files are in dev mode
-    urlpatterns += static(settings.MEDIA_URL + 'images/', document_root=os.path.join(settings.MEDIA_ROOT, 'images'))
-    urlpatterns += patterns('',
-        (r'^favicon\.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'demo/images/favicon.ico'))
-    )
