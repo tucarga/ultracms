@@ -127,10 +127,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('full_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('position', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('area', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Area'])),
-            ('agency', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Agency'])),
+            ('phone', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True)),
+            ('area', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Area'], null=True, blank=True)),
+            ('agency', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ultracore.Agency'], null=True, blank=True)),
         ))
         db.send_create_signal(u'ultracore', ['Contact'])
 
@@ -303,12 +303,12 @@ class Migration(SchemaMigration):
         },
         u'ultracore.contact': {
             'Meta': {'ordering': "('full_name',)", 'object_name': 'Contact'},
-            'agency': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Agency']"}),
-            'area': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Area']"}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'agency': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Agency']", 'null': 'True', 'blank': 'True'}),
+            'area': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ultracore.Area']", 'null': 'True', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
             'full_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'phone': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'phone': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'position': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'tags': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['taggit.Tag']", 'symmetrical': 'False', 'blank': 'True'})
         },

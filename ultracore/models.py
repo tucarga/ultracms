@@ -312,11 +312,11 @@ DirectoryPage.promote_panels = [
 class Contact(models.Model):
     full_name = models.CharField(max_length=100)
     position = models.CharField(max_length=50)
-    phone = models.CharField(max_length=20)
-    email = models.EmailField()
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
 
-    area = models.ForeignKey('Area')
-    agency = models.ForeignKey('Agency')
+    area = models.ForeignKey('Area', null=True, blank=True)
+    agency = models.ForeignKey('Agency', null=True, blank=True)
 
     tags = models.ManyToManyField('taggit.Tag', blank=True)
 
