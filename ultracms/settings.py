@@ -152,8 +152,7 @@ AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
 
 # See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
-if AWS_ACCESS_KEY_ID is not '':
-    STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
 
 # AWS cache settings, don't change unless you know what you're doing:
 AWS_EXPIRY = 60 * 60 * 24 * 7
