@@ -27,7 +27,12 @@
 
     {% else %}
 
+      {# Hide page from secondary menu when it has no children #}
+      {% if calling_page != page %}
+
       <a href="{% pageurl page %}">{{ page.title }}</a>
+
+      {% endif %}
 
     {% endif %}
 
