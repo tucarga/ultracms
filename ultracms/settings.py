@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'wagtail.wagtailembeds',
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
+    'wagtail.wagtailsearch',  # not used but required when deleting a page
 
     # Local apps
     'wagtailsettings',
@@ -152,7 +153,8 @@ AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
 
 # See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
-STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+if not DEBUG:
+    STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
 
 # AWS cache settings, don't change unless you know what you're doing:
 AWS_EXPIRY = 60 * 60 * 24 * 7
@@ -184,12 +186,14 @@ STATICFILES_FINDERS = (
 # END STATIC FILE
 
 # django-compressor
+
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 COMPRESS_ENABLED = bool(os.environ.get('COMPRESS_ENABLED', False))
 COMPRESS_ROOT = STATIC_ROOT
-COMPRESS_STORAGE = STATICFILES_STORAGE
+if not DEBUG:
+    COMPRESS_STORAGE = STATICFILES_STORAGE
 COMPRESS_URL = STATIC_URL
 # end django-compressor
 
