@@ -1,0 +1,19 @@
+<li ><i class="fa-li fa fa-credit-card"></i>
+  <ul class="fa-ul">
+    <li><i class="fa-li fa fa-user"></i>{{ contact.full_name }}</li>
+    <li><i class="fa-li fa fa-sitemap"></i>{{ contact.position }}</li>
+
+    {% if contact.phone %}
+
+    <li><i class="fa-li fa fa-phone"></i>{{ contact.phone }}</li>
+
+    {% endif %}
+
+    {% if contact.email %}
+
+    <li><i class="fa-li fa fa-envelope-o"></i>{{ contact.email }}</li>
+
+    {% endif %}
+
+  </ul>
+</li>
