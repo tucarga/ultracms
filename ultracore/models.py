@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.shortcuts import redirect
 from django.utils.safestring import mark_safe
 
 from pygal.colors import darken, lighten
@@ -374,21 +375,6 @@ class Agency(models.Model):
 register_snippet(Agency)
 
 
-class MenuItem(models.Model):
-    name = models.CharField(max_length=100)
-    link = models.URLField()
-
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('link', classname="full"),
-    ]
-
-    def __unicode__(self):
-        return self.name
-
-register_snippet(MenuItem)
-
-
 from taggit.models import Tag
 
 Tag.panels = [
@@ -486,6 +472,14 @@ class SiteSetting(BaseSetting):
     @property
     def header_menu_children_background_color_hover(self):
         return self.header_menu_parent_background_color_hover
+
+
+class PageAlias(wagtail_models.Page, LinkFields):
+
+    def serve(self, request):
+        return redirect(self.link, permanent=False)
+
+PageAlias.content_panels = [FieldPanel('title')] + LinkFields.panels
 
 # This is required only if no method is found to have auto complete
 # tags in models that have a `tags` field like `SpecialPage`.

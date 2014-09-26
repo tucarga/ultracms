@@ -159,14 +159,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ultracore', ['Agency'])
 
-        # Adding model 'MenuItem'
-        db.create_table(u'ultracore_menuitem', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('link', self.gf('django.db.models.fields.URLField')(max_length=200)),
-        ))
-        db.send_create_signal(u'ultracore', ['MenuItem'])
-
         # Adding model 'SiteSetting'
         db.create_table(u'ultracore_sitesetting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -191,6 +183,15 @@ class Migration(SchemaMigration):
             ('footer_background_color', self.gf('django.db.models.fields.CharField')(max_length=7, null=True, blank=True)),
         ))
         db.send_create_signal(u'ultracore', ['SiteSetting'])
+
+        # Adding model 'PageAlias'
+        db.create_table(u'ultracore_pagealias', (
+            (u'page_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['wagtailcore.Page'], unique=True, primary_key=True)),
+            ('link_external', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('link_page', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtailcore.Page'])),
+            ('link_document', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wagtaildocs.Document'])),
+        ))
+        db.send_create_signal(u'ultracore', ['PageAlias'])
 
 
     def backwards(self, orm):
@@ -239,11 +240,11 @@ class Migration(SchemaMigration):
         # Deleting model 'Agency'
         db.delete_table(u'ultracore_agency')
 
-        # Deleting model 'MenuItem'
-        db.delete_table(u'ultracore_menuitem')
-
         # Deleting model 'SiteSetting'
         db.delete_table(u'ultracore_sitesetting')
+
+        # Deleting model 'PageAlias'
+        db.delete_table(u'ultracore_pagealias')
 
 
     models = {
@@ -373,11 +374,12 @@ class Migration(SchemaMigration):
             u'service_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['ultracore.Service']", 'unique': 'True', 'primary_key': 'True'}),
             'sort_order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
-        u'ultracore.menuitem': {
-            'Meta': {'object_name': 'MenuItem'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'link': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        u'ultracore.pagealias': {
+            'Meta': {'object_name': 'PageAlias', '_ormbases': [u'wagtailcore.Page']},
+            'link_document': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtaildocs.Document']"}),
+            'link_external': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'link_page': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['wagtailcore.Page']"}),
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['wagtailcore.Page']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'ultracore.service': {
             'Meta': {'object_name': 'Service'},
